@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './components/Home';
-import Pianists from './components/Pianists';
-import Services from './components/Services'; // Add services page
-import Artists from './components/Artists'; // Add artists page
-import Media from './components/Media'; // Add media page
-import Contact from './components/Contact'; // Add contact page
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+import Home from './components/Home/Home';
+import Pianists from './components/Pianists/Pianists';
+import Services from './components/Services/Services'; // Add services page
+import Artists from './components/Artists/Artists'; // Add artists page
+import Media from './components/Media/Media'; // Add media page
+import Contact from './components/Contact/Contact'; // Add contact page
 
 function App() {
   return (
