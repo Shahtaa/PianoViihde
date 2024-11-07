@@ -1,4 +1,10 @@
 import React from 'react';
+import HeroSection from './HeroSection'
+import IntroText from './IntroText'
+import CounterSection from './CounterSection'
+import TestimonialsCarousel from './TestimonialsCarousel'
+import InstagramFeed from './InstagramFeed'
+import ContactSection from './ContactSection'
 import { Box, Typography, Container, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
