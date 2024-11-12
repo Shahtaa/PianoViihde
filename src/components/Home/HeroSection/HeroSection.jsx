@@ -24,70 +24,81 @@ function HeroSection() {
               alt="Slide 1"
               className={styles.slideImage}
             />
-            {/* Затемнение */}
             <Box className={styles.overlay} />
 
-            {/* Контент поверх слайда */}
-            <Container className={styles.content}>
-              <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+            <Container
+              sx={{
+                position: 'absolute',
+                top: { xs: '20%', sm: '25%', md: '30%' },
+                left: { xs: '50%', md: '40%' },
+                transform: {
+                  xs: 'translate(-50%, -50%)',
+                  md: 'translate(-50%)',
+                },
+                color: '#fff',
+                textAlign: { xs: 'center', md: 'left' },
+                maxWidth: { xs: '80%', sm: '70%', md: 'auto' },
+                padding: { xs: '0 1rem' },
+              }}
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 'bold',
+                  fontSize: {
+                    xs: '1.8rem',
+                    sm: '2.5rem',
+                    md: '3rem',
+                    lg: '4rem',
+                    xl: '6rem',
+                  },
+                  overflowWrap: 'break-word',
+                }}
+              >
                 Piano & Viihde
               </Typography>
-              <Box sx={{ mt: 2, display: 'flex', gap: '16px' }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontStyle: 'italic',
+                  fontSize: {
+                    xs: '1rem',
+                    sm: '2rem',
+                    md: '2.5rem',
+                    lg: '3.2rem',
+                    xl: '4rem',
+                  },
+                  marginBottom: { xs: '0.5rem', sm: '1rem', md: '1.5rem' },
+                }}
+              >
+                Ohjelmatoimisto
+              </Typography>
+              <Box
+                sx={{
+                  mt: 2,
+                  display: 'flex',
+                  gap: { xs: 1, md: 2 },
+                  flexDirection: { xs: 'column', md: 'row' },
+                  alignItems: { xs: 'center', md: 'flex-start' },
+                }}
+              >
                 <Button
                   variant="contained"
                   color="primary"
-                  className={styles.button}
+                  sx={{
+                    width: { xs: '100%', md: 'auto' },
+                  }}
                 >
                   Yhteystiedot
                 </Button>
                 <Button
                   variant="outlined"
                   color="primary"
-                  className={styles.button}
+                  sx={{
+                    width: { xs: '100%', md: 'auto' },
+                  }}
                 >
                   Meistä
-                </Button>
-              </Box>
-            </Container>
-          </Box>
-        </SwiperSlide>
-
-        {/* Добавьте дополнительные SwiperSlide для других изображений */}
-        <SwiperSlide>
-          <Box sx={{ position: 'relative' }}>
-            <img
-              src="your-image2.jpg"
-              alt="Slide 2"
-              className={styles.slideImage}
-            />
-            <Box className={styles.overlay} />
-            <Container
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                color: '#fff',
-                textAlign: 'center',
-              }}
-            >
-              <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-                Piano & Viihde
-              </Typography>
-              <Box sx={{ mt: 2 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={styles.button}
-                >
-                  Кнопка 1
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className={styles.button}
-                >
-                  Кнопка 2
                 </Button>
               </Box>
             </Container>
