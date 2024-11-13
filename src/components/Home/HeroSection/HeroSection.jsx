@@ -130,9 +130,8 @@ function HeroSection() {
         </SwiperSlide>
         <SwiperSlide>
           <img
-            src={`${
-              import.meta.env.VITE_PUBLIC_URL
-            }images/kansikuva_reverse.webp`}
+            src={`${import.meta.env.VITE_PUBLIC_URL
+              }images/kansikuva_reverse.webp`}
             alt="Slide 2"
             className={styles.slideImage}
           />
