@@ -8,125 +8,54 @@ function Pianists() {
                 Pianistit
             </Typography>
             <Grid container spacing={4}>
-                {/* Pianist Card 1 */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                        <img
-                            src="https://via.placeholder.com/350x200"
-                            alt="Pianist"
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                        />
-                        <CardContent>
-                            <Typography variant="h6">Pianisti Nimi 1</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Lyhyt kuvaus.
-                            </Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Lisää tietoja
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                {Array.from({ length: 6 }).map((_, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                        <Card
+                            sx={{
+                                maxWidth: 345,
+                                minHeight: 350,
+                                overflow: 'hidden',
+                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                '&:hover': {
+                                    transform: 'scale(1.03)', // Slightly lift the card
+                                    boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)', // Add shadow on hover
+                                },
+                            }}
+                        >
+                            {/* Image with Zoom Effect on Hover */}
+                            <Box
+                                component="img"
+                                src="https://via.placeholder.com/350x200"
+                                alt={`Pianist ${index + 1}`}
+                                sx={{
+                                    width: '100%',
+                                    height: '200px',
+                                    objectFit: 'cover',
+                                    transition: 'transform 0.3s ease', // Smooth zoom effect
+                                    '&:hover': {
+                                        transform: 'scale(1.1)', // Zoom in the image
+                                    },
+                                }}
+                            />
 
-                {/* Pianist Card 2 */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                        <img
-                            src="https://via.placeholder.com/350x200"
-                            alt="Pianist"
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                        />
-                        <CardContent>
-                            <Typography variant="h6">Pianisti Nimi 2</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Lyhyt kuvaus.
-                            </Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Lisää tietoja
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                {/* Pianist Card 3 */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                        <img
-                            src="https://via.placeholder.com/350x200"
-                            alt="Pianist"
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                        />
-                        <CardContent>
-                            <Typography variant="h6">Pianisti Nimi 3</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Lyhyt kuvaus.
-                            </Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Lisää tietoja
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                {/* Pianist Card 4 */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                        <img
-                            src="https://via.placeholder.com/350x200"
-                            alt="Pianist"
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                        />
-                        <CardContent>
-                            <Typography variant="h6">Pianisti Nimi 4</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Lyhyt kuvaus.
-                            </Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Lisää tietoja
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                {/* Pianist Card 5 */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                        <img
-                            src="https://via.placeholder.com/350x200"
-                            alt="Pianist"
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                        />
-                        <CardContent>
-                            <Typography variant="h6">Pianisti Nimi 5</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Lyhyt kuvaus.
-                            </Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Lisää tietoja
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                {/* Pianist Card 6 */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                        <img
-                            src="https://via.placeholder.com/350x200"
-                            alt="Pianist"
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                        />
-                        <CardContent>
-                            <Typography variant="h6">Pianisti Nimi 6</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Lyhyt kuvaus.
-                            </Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Lisää tietoja
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                            {/* Card Content */}
+                            <CardContent>
+                                <Typography variant="h6">Pianisti Nimi {index + 1}</Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                    Lyhyt kuvaus.
+                                </Typography>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                >
+                                    Lisää tietoja
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
             </Grid>
         </Container>
     );

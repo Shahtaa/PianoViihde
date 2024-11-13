@@ -1,6 +1,5 @@
-// src/components/Artists.jsx
 import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, Button } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, Button, Box } from '@mui/material';
 
 function Artists() {
     return (
@@ -11,11 +10,32 @@ function Artists() {
             <Grid container spacing={4}>
                 {[...Array(6)].map((_, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
-                        <Card sx={{ maxWidth: 345, minHeight: 350 }}>
-                            <img
+                        <Card
+                            sx={{
+                                maxWidth: 345,
+                                minHeight: 350,
+                                overflow: 'hidden',
+                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                '&:hover': {
+                                    transform: 'scale(1.03)', // Slightly lift the card
+                                    boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)', // Add shadow on hover
+                                },
+                            }}
+                        >
+                            {/* Image with Zoom Effect on Hover */}
+                            <Box
+                                component="img"
                                 src="https://via.placeholder.com/350x200"
                                 alt={`Artist ${index + 1}`}
-                                style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                                sx={{
+                                    width: '100%',
+                                    height: '200px',
+                                    objectFit: 'cover',
+                                    transition: 'transform 0.3s ease', // Smooth zoom effect
+                                    '&:hover': {
+                                        transform: 'scale(1.1)', // Zoom in the image
+                                    },
+                                }}
                             />
                             <CardContent>
                                 <Typography variant="h6">Artist Name {index + 1}</Typography>
