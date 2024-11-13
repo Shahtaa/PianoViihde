@@ -1,20 +1,146 @@
 import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, Button, Box } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, Button, Box, IconButton } from '@mui/material';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 function Artists() {
+    // Artistit ja heidän tiedot suomeksi
+    const artists = [
+        {
+            name: 'Anna Katariina',
+            description: 'Lyhyt kuvaus Anna Katariinasta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/anna-katariina',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Duo Songbirds',
+            description: 'Lyhyt kuvaus Duo Songbirdsistä.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/duo-songbirds',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Saksofonisti Anton Morozov',
+            description: 'Lyhyt kuvaus Anton Morozovista.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/anton-morozov',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Tytti Koivunen',
+            description: 'Lyhyt kuvaus Tytti Koivusesta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/tytti-koivunen',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Lotta Virkkunen',
+            description: 'Lyhyt kuvaus Lotta Virkkusesta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/lotta-virkkunen',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Tanja Vähäsarja',
+            description: 'Lyhyt kuvaus Tanja Vähäsarjasta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/tanja-vahasarja',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Juontaja Kimmo Oksanen',
+            description: 'Lyhyt kuvaus Kimmo Oksasesta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/kimmo-oksanen',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Toni Jokiniitty',
+            description: 'Lyhyt kuvaus Toni Jokiniitystä.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/toni-jokiniitty',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Joonas Eloranta',
+            description: 'Lyhyt kuvaus Joonas Elorannasta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/joonas-eloranta',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'PUSHKIN Quintett',
+            description: 'Lyhyt kuvaus PUSHKIN Quintetista.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/pushkin-quintett',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Night Shift',
+            description: 'Lyhyt kuvaus Night Shiftistä.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/night-shift',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Henriikka Roo',
+            description: 'Lyhyt kuvaus Henriikka Roosta.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/henriikka-roo',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+        {
+            name: 'Tampereen Ukuleleorkesteri',
+            description: 'Lyhyt kuvaus Tampereen Ukuleleorkesterista.',
+            imageUrl: 'https://via.placeholder.com/350x200',
+            moreInfoUrl: '/artists/tampereen-ukuleleorkesteri',
+            facebookUrl: 'https://facebook.com',
+            instagramUrl: 'https://instagram.com',
+            youtubeUrl: 'https://youtube.com',
+        },
+    ];
+
     return (
         <Container sx={{ mt: 4 }}>
             <Typography variant="h4" sx={{ mb: 4, textAlign: 'center' }}>
-                Artists
+                Artistit
             </Typography>
             <Grid container spacing={4}>
-                {[...Array(6)].map((_, index) => (
+                {artists.map((artist, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card
                             sx={{
                                 maxWidth: 345,
-                                minHeight: 350,
+                                height: 450,  // Set fixed height for uniform card size
                                 overflow: 'hidden',
+                                display: 'flex',
+                                flexDirection: 'column',
                                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                                 '&:hover': {
                                     transform: 'scale(1.03)', // Slightly lift the card
@@ -25,7 +151,7 @@ function Artists() {
                             {/* Image with Zoom Effect on Hover */}
                             <Box
                                 component="img"
-                                src="https://via.placeholder.com/350x200"
+                                src={artist.imageUrl}
                                 alt={`Artist ${index + 1}`}
                                 sx={{
                                     width: '100%',
@@ -37,13 +163,51 @@ function Artists() {
                                     },
                                 }}
                             />
-                            <CardContent>
-                                <Typography variant="h6">Artist Name {index + 1}</Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    Short description.
+
+                            {/* Card Content */}
+                            <CardContent sx={{ flexGrow: 1 }}>
+                                {/* Name and Social Media Icons on the same line */}
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                                        {artist.name}
+                                    </Typography>
+                                    {/* Social Media Icons */}
+                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                        <IconButton
+                                            color="primary"
+                                            onClick={() => window.location.href = artist.facebookUrl}
+                                            sx={{ width: 30, height: 30 }}
+                                        >
+                                            <FacebookIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            color="primary"
+                                            onClick={() => window.location.href = artist.instagramUrl}
+                                            sx={{ width: 30, height: 30 }}
+                                        >
+                                            <InstagramIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            color="primary"
+                                            onClick={() => window.location.href = artist.youtubeUrl}
+                                            sx={{ width: 30, height: 30 }}
+                                        >
+                                            <YouTubeIcon />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
+
+                                <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+                                    {artist.description}
                                 </Typography>
-                                <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                    More Info
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    fullWidth
+                                    sx={{ mb: 2 }}
+                                    onClick={() => window.location.href = artist.moreInfoUrl} // Redirect to the artist's "More Info" page
+                                >
+                                    Lisätietoja
                                 </Button>
                             </CardContent>
                         </Card>
