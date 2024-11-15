@@ -1,60 +1,63 @@
 import React, { useState } from 'react';
-import { Box, Container, TextField, Button, Typography, Grid, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import { Box, Container, TextField, Button, Typography, Grid, MenuItem, Select, FormControl, InputLabel, Link } from '@mui/material';
 
 function Contact() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [subject, setSubject] = useState('');
-    const [message, setMessage] = useState('');
+    // State for form fields and validation
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+    });
     const [errors, setErrors] = useState({});
 
     const subjects = [
-        'Pianistin varaus',
-        'Tapahtumamusiikki',
-        'Häiden viihde',
+        'Livemusiikki ravintoloissa',
         'Yritystilaisuudet',
-        'Yksityistilaisuudet',
-        'Hintatiedot',
-        'Saatavuuskysely',
-        'Erityistoiveet',
+        'Taustamusiikkia tilaisuuksiin',
+        'Häämusiikki',
+        'Sävellyspalvelut',
         'Muu',
     ];
 
+    // Handler for form changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    // Form validation
     const validateForm = () => {
-        let valid = true;
+        let isValid = true;
         const newErrors = {};
 
-        if (!name) {
+        if (!formData.name) {
             newErrors.name = 'Nimi on pakollinen';
-            valid = false;
+            isValid = false;
         }
-
-        if (!email) {
+        if (!formData.email) {
             newErrors.email = 'Sähköposti on pakollinen';
-            valid = false;
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Sähköpostin muoto ei ole oikea';
-            valid = false;
+            isValid = false;
         }
-
-        if (!message) {
+        if (!formData.message) {
             newErrors.message = 'Viesti on pakollinen';
-            valid = false;
+            isValid = false;
         }
 
         setErrors(newErrors);
-        return valid;
+        return isValid;
     };
 
+    // Submit handler
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
 
-        if (!validateForm()) {
-            return;
-        }
-
-        console.log('Contact form submitted:', { name, email, phone, subject, message });
+        console.log('Contact form submitted:', formData);
     };
 
     return (
@@ -71,8 +74,8 @@ function Contact() {
                             label="Nimi"
                             variant="outlined"
                             fullWidth
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={formData.name}
+                            onChange={handleInputChange}
                             required
                             error={!!errors.name}
                             helperText={errors.name}
@@ -86,8 +89,8 @@ function Contact() {
                             label="Sähköposti"
                             variant="outlined"
                             fullWidth
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={formData.email}
+                            onChange={handleInputChange}
                             required
                             error={!!errors.email}
                             helperText={errors.email}
@@ -101,8 +104,8 @@ function Contact() {
                             label="Puhelin"
                             variant="outlined"
                             fullWidth
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            value={formData.phone}
+                            onChange={handleInputChange}
                             autoComplete="tel"
                         />
                     </Grid>
@@ -113,8 +116,8 @@ function Contact() {
                                 labelId="subject-label"
                                 id="subject"
                                 name="subject"
-                                value={subject}
-                                onChange={(e) => setSubject(e.target.value)}
+                                value={formData.subject}
+                                onChange={handleInputChange}
                                 required
                                 autoComplete="off"
                             >
@@ -135,8 +138,8 @@ function Contact() {
                             fullWidth
                             multiline
                             rows={4}
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
+                            value={formData.message}
+                            onChange={handleInputChange}
                             required
                             error={!!errors.message}
                             helperText={errors.message}
@@ -160,6 +163,16 @@ function Contact() {
                     </Grid>
                 </Grid>
             </form>
+
+            <Box sx={{ mt: 4, textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">
+                    Lähettämällä viestin hyväksyt{' '}
+                    <Link href="/tietosuojaseloste" target="_blank" rel="noopener noreferrer" color="primary">
+                        tietosuojaselosteen
+                    </Link>{' '}
+                    ja ymmärrät, että tietojasi käsitellään turvallisesti.
+                </Typography>
+            </Box>
         </Container>
     );
 }

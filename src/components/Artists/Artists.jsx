@@ -5,12 +5,12 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
 function Artists() {
-    // Artistit ja heidän tiedot suomeksi
+    // Artist data with image URL pointing to the image inside the public folder
     const artists = [
         {
             name: 'Anna Katariina',
             description: 'Lyhyt kuvaus Anna Katariinasta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg', // Direct reference to the public directory
             moreInfoUrl: '/artists/anna-katariina',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -19,7 +19,7 @@ function Artists() {
         {
             name: 'Duo Songbirds',
             description: 'Lyhyt kuvaus Duo Songbirdsistä.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/duo-songbirds',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -28,7 +28,7 @@ function Artists() {
         {
             name: 'Saksofonisti Anton Morozov',
             description: 'Lyhyt kuvaus Anton Morozovista.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/anton-morozov',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -37,7 +37,7 @@ function Artists() {
         {
             name: 'Tytti Koivunen',
             description: 'Lyhyt kuvaus Tytti Koivusesta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/tytti-koivunen',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -46,7 +46,7 @@ function Artists() {
         {
             name: 'Lotta Virkkunen',
             description: 'Lyhyt kuvaus Lotta Virkkusesta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/lotta-virkkunen',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -55,7 +55,7 @@ function Artists() {
         {
             name: 'Tanja Vähäsarja',
             description: 'Lyhyt kuvaus Tanja Vähäsarjasta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/tanja-vahasarja',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -64,7 +64,7 @@ function Artists() {
         {
             name: 'Juontaja Kimmo Oksanen',
             description: 'Lyhyt kuvaus Kimmo Oksasesta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/kimmo-oksanen',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -73,7 +73,7 @@ function Artists() {
         {
             name: 'Toni Jokiniitty',
             description: 'Lyhyt kuvaus Toni Jokiniitystä.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/toni-jokiniitty',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -82,7 +82,7 @@ function Artists() {
         {
             name: 'Joonas Eloranta',
             description: 'Lyhyt kuvaus Joonas Elorannasta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/joonas-eloranta',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -91,7 +91,7 @@ function Artists() {
         {
             name: 'PUSHKIN Quintett',
             description: 'Lyhyt kuvaus PUSHKIN Quintetista.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/pushkin-quintett',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -100,7 +100,7 @@ function Artists() {
         {
             name: 'Night Shift',
             description: 'Lyhyt kuvaus Night Shiftistä.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/night-shift',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -109,7 +109,7 @@ function Artists() {
         {
             name: 'Henriikka Roo',
             description: 'Lyhyt kuvaus Henriikka Roosta.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/henriikka-roo',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -118,7 +118,7 @@ function Artists() {
         {
             name: 'Tampereen Ukuleleorkesteri',
             description: 'Lyhyt kuvaus Tampereen Ukuleleorkesterista.',
-            imageUrl: 'https://via.placeholder.com/350x200',
+            imageUrl: '/images/artists_jpg.jpg',
             moreInfoUrl: '/artists/tampereen-ukuleleorkesteri',
             facebookUrl: 'https://facebook.com',
             instagramUrl: 'https://instagram.com',
@@ -152,7 +152,8 @@ function Artists() {
                             <Box
                                 component="img"
                                 src={artist.imageUrl}
-                                alt={`Artist ${index + 1}`}
+                                alt={`Artist ${artist.name}`}
+                                onError={(e) => e.target.src = '/images/fallback.jpg'} // Fallback image on error
                                 sx={{
                                     width: '100%',
                                     height: '200px',
@@ -218,4 +219,4 @@ function Artists() {
     );
 }
 
-export default Artists;
+export default Artists
