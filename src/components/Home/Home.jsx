@@ -13,6 +13,7 @@ function Home() {
       <>
         <HeroSection />
         <IntroText />
+        <CounterSection />
       </>
     )
 }
