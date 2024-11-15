@@ -12,6 +12,7 @@ function Home() {
     return (
       <>
         <HeroSection />
+        <IntroText />
       </>
     )
 }
