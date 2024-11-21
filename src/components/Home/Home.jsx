@@ -14,6 +14,7 @@ function Home() {
         <HeroSection />
         <IntroText />
         <CounterSection />
+        <TestimonialsCarousel />
       </>
     )
 }
