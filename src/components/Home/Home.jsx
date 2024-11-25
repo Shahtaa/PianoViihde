@@ -16,6 +16,7 @@ function Home() {
         <CounterSection />
         <TestimonialsCarousel />
         <InstagramFeed />
+        <ContactSection />
       </>
     )
 }
