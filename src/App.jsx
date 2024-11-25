@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import Home from './components/Home/Home'
+import Gigs from './components/Gigs/Gigs'
 import Pianists from './components/Pianists/Pianists'
 import Services from './components/Services/Services' // Add services page
 import Artists from './components/Artists/Artists' // Add artists page
@@ -29,6 +30,7 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/gigs" element={<Gigs />} />
               <Route path="/pianists" element={<Pianists />} />
               <Route path="/services" element={<Services />} />{' '}
               {/* Add Services route */}
