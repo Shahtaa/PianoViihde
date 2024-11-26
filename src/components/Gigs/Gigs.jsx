@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Box,
   Typography,
@@ -6,35 +7,27 @@ import {
   ListItem,
   ListItemText,
   Divider,
-} from '@mui/material'
+} from '@mui/material';
 
 const Keikat = () => {
-  const gigs = [
-    {
-      title: 'Ravintola Helsinki',
-      date: '25.12.2024',
-      location: 'Helsinki, Finland',
-    },
-    {
-      title: 'Yritystilaisuus Espoo',
-      date: '30.12.2024',
-      location: 'Espoo, Finland',
-    },
-    {
-      title: 'Uudenvuoden juhlat',
-      date: '31.12.2024',
-      location: 'Tampere, Finland',
-    },
-    { title: 'Kesäjuhlat', date: '01.07.2025', location: 'Turku, Finland' },
-    { title: 'Festival Espoo', date: '15.08.2025', location: 'Espoo, Finland' },
-    { title: 'Jazz Night', date: '20.09.2025', location: 'Helsinki, Finland' },
-    { title: 'Private Event', date: '05.10.2025', location: 'Oulu, Finland' },
-    {
-      title: 'Christmas Party',
-      date: '24.12.2025',
-      location: 'Rovaniemi, Finland',
-    },
-  ]
+  // State hooks to manage gigs and errors
+  const [gigs, setGigs] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Fetch gigs data on component mount
+  useEffect(() => {
+    const fetchGigs = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/gigs'); // Adjust API endpoint as needed
+        setGigs(response.data); // Set the gigs data
+      } catch (err) {
+        setError('Failed to load gigs data');
+        console.error('Error fetching gigs:', err);
+      }
+    };
+
+    fetchGigs();
+  }, []); // Empty dependency array to run only on mount
 
   return (
     <Box sx={{ padding: 4 }}>
@@ -49,9 +42,31 @@ const Keikat = () => {
       >
         Tulevat Keikat
       </Typography>
+
+      {/* Show error message if data fetch fails */}
+      {error && (
+        <Typography
+          variant="body1"
+          sx={{ textAlign: 'center', color: 'error.main', mb: 2 }}
+        >
+          {error}
+        </Typography>
+      )}
+
+      {/* Show loading message if no gigs are fetched */}
+      {gigs.length === 0 && !error && (
+        <Typography
+          variant="body1"
+          sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}
+        >
+          Ei tulevia keikkoja.
+        </Typography>
+      )}
+
+      {/* Display gigs list */}
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {gigs.map((gig, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={gig.id || index}>
             <ListItem alignItems="flex-start">
               <ListItemText
                 primary={
@@ -80,7 +95,7 @@ const Keikat = () => {
         ))}
       </List>
     </Box>
-  )
-}
+  );
+};
 
-export default Keikat
+export default Keikat;
