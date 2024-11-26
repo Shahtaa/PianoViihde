@@ -131,7 +131,7 @@ const TestimonialsCarousel = () => {
     <Box
       sx={{
         maxWidth: '1200px',
-        margin: '0 auto',
+        margin: '30px auto',
         py: { xs: 3, sm: 6 },
         px: { xs: 1, sm: 4 },
         backgroundColor: '#f0f8ff',
@@ -139,6 +139,13 @@ const TestimonialsCarousel = () => {
         boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
       }}
     >
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{ fontWeight: 'bold', mb: 4, color: '#333' }}
+      >
+        Palautteet
+      </Typography>
       <Slider {...settings}>
         {reviews.map((review) => (
           <Box

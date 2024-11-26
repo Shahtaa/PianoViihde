@@ -1,0 +1,55 @@
+.partner-logos-container {
+   text-align: center;
+   padding: 20px;
+   background-color: #f9f9f9;
+   overflow: hidden; /* Прячем элементы за границами */
+   position: relative;
+ }
+ 
+ .partner-logos-container h2 {
+   margin-bottom: 20px;
+   font-size: 24px;
+   color: #333;
+ }
+ 
+ .logos-marquee {
+   display: flex;
+   overflow: hidden;
+   position: relative;
+   width: 100%; /* Контейнер растянут на всю ширину */
+ }
+ 
+ .logos-track {
+   display: flex;
+   animation: scroll 15s linear infinite; /* Скорость анимации */
+   width: max-content; /* Динамическая ширина трека */
+ }
+ 
+ .logo-item {
+   padding: 20px 10px;
+   flex: 0 0 auto; /* Фиксируем размеры логотипов */
+   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавная анимация */
+ }
+ 
+ .logo-item img {
+   max-height: 80px; /* Лимит высоты логотипов */
+   object-fit: contain; /* Сохраняем пропорции логотипов */
+   display: block; /* Убираем пробелы вокруг изображений */
+ }
+ 
+ /* Эффект при наведении */
+ .logo-item:hover {
+   transform: translateY(-10px); /* Поднятие логотипа */
+   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* Мягкая тень для объёма */
+ }
+ 
+ /* Бесконечная анимация */
+ @keyframes scroll {
+   from {
+     transform: translateX(0);
+   }
+   to {
+     transform: translateX(-50%); /* Полный сдвиг */
+   }
+ }
+ 
