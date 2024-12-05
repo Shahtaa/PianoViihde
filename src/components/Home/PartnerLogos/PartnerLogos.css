@@ -1,7 +1,7 @@
 .partner-logos-container {
    text-align: center;
    padding: 20px;
-   background-color: #f9f9f9;
+   background-color: #fff;
    overflow: hidden; /* Прячем элементы за границами */
    position: relative;
  }
@@ -11,7 +11,7 @@
    font-size: 24px;
    color: #333;
  }
- 
+
  .logos-marquee {
    display: flex;
    overflow: hidden;

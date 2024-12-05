@@ -5,6 +5,7 @@ import Footer from './components/Footer/Footer'
 import Home from './components/Home/Home'
 import Gigs from './components/Gigs/Gigs'
 import Pianists from './components/Pianists/Pianists'
+import PianistPage from './components/Pianists/PianistPage'
 import Services from './components/Services/Services' // Add services page
 import Artists from './components/Artists/Artists' // Add artists page
 import Media from './components/Media/Media' // Add media page
@@ -32,6 +33,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/gigs" element={<Gigs />} />
               <Route path="/pianists" element={<Pianists />} />
+              <Route path="/pianists/:id" element={<PianistPage />} />
               <Route path="/services" element={<Services />} />{' '}
               {/* Add Services route */}
               <Route path="/artists" element={<Artists />} />{' '}

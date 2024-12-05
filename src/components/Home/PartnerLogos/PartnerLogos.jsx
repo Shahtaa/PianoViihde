@@ -32,7 +32,13 @@ const PartnerLogos = () => {
   ]
 
   // Дублируем логотипы 4 раза для плавной прокрутки
-  const repeatedLogos = [...partners, ...partners, ...partners, ...partners]
+  const repeatedLogos = [
+    ...partners,
+    ...partners,
+    ...partners,
+    ...partners,
+    ...partners,
+  ]
 
   return (
     <div className="partner-logos-container">
