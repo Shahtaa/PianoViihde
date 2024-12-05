@@ -72,7 +72,7 @@ function PianistPage() {
       </Button>
 
       <Grid container spacing={4} alignItems="center">
-        {/* Фото артиста */}
+        {/* Kuva */}
         <Grid item xs={12} md={6}>
           <Card>
             <CardMedia
