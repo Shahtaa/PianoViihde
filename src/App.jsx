@@ -7,6 +7,7 @@ import Gigs from './components/Gigs/Gigs'
 import Pianists from './components/Pianists/Pianists'
 import PianistPage from './components/Pianists/PianistPage'
 import Services from './components/Services/Services' // Add services page
+import ServicePage from './components/Services/ServicesPage'
 import Artists from './components/Artists/Artists' // Add artists page
 import Media from './components/Media/Media' // Add media page
 import Contact from './components/Contact/Contact' // Add contact page
@@ -35,6 +36,7 @@ function App() {
               <Route path="/pianists" element={<Pianists />} />
               <Route path="/pianists/:id" element={<PianistPage />} />
               <Route path="/services" element={<Services />} />{' '}
+              <Route path="/services/:id" element={<ServicePage />} />
               {/* Add Services route */}
               <Route path="/artists" element={<Artists />} />{' '}
               {/* Add Artists route */}
