@@ -9,6 +9,7 @@ import PianistPage from './components/Pianists/PianistPage'
 import Services from './components/Services/Services' // Add services page
 import ServicePage from './components/Services/ServicesPage'
 import Artists from './components/Artists/Artists' // Add artists page
+import ArtistPage from './components/Artists/ArtistPage'
 import Media from './components/Media/Media' // Add media page
 import Contact from './components/Contact/Contact' // Add contact page
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/services/:id" element={<ServicePage />} />
               {/* Add Services route */}
               <Route path="/artists" element={<Artists />} />{' '}
+              <Route path="/artists/:id" element={<ArtistPage />} />
               {/* Add Artists route */}
               <Route path="/media" element={<Media />} />{' '}
               {/* Add Media route */}
