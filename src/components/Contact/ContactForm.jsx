@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   Box,
   TextField,
@@ -8,7 +8,7 @@ import {
   Select,
   FormControl,
   InputLabel,
-} from '@mui/material'
+} from '@mui/material';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -17,8 +17,10 @@ const ContactForm = () => {
     phone: '',
     subject: '',
     message: '',
-  })
-  const [errors, setErrors] = useState({})
+    date: '', // Adding a date field
+  });
+
+  const [errors, setErrors] = useState({});
 
   const subjects = [
     'Livemusiikki ravintoloissa',
@@ -27,43 +29,54 @@ const ContactForm = () => {
     'Häämusiikki',
     'Sävellyspalvelut',
     'Muu',
-  ]
+  ];
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prevData) => ({ ...prevData, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   const validateForm = () => {
-    let isValid = true
-    const newErrors = {}
+    let isValid = true;
+    const newErrors = {};
 
     if (!formData.name) {
-      newErrors.name = 'Nimi on pakollinen'
-      isValid = false
+      newErrors.name = 'Nimi on pakollinen';
+      isValid = false;
     }
     if (!formData.email) {
-      newErrors.email = 'Sähköposti on pakollinen'
-      isValid = false
+      newErrors.email = 'Sähköposti on pakollinen';
+      isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Sähköpostin muoto ei ole oikea'
-      isValid = false
+      newErrors.email = 'Sähköpostin muoto ei ole oikea';
+      isValid = false;
     }
     if (!formData.message) {
-      newErrors.message = 'Viesti on pakollinen'
-      isValid = false
+      newErrors.message = 'Viesti on pakollinen';
+      isValid = false;
+    }
+    if (!formData.date) {
+      newErrors.date = 'Päivämäärä on pakollinen';
+      isValid = false;
+    } else {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      if (selectedDate < today) {
+        newErrors.date = 'Valitse päivämäärä, joka on tänään tai tulevaisuudessa';
+        isValid = false;
+      }
     }
 
-    setErrors(newErrors)
-    return isValid
-  }
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!validateForm()) return
+    e.preventDefault();
+    if (!validateForm()) return;
 
-    console.log('Contact form submitted:', formData)
-  }
+    console.log('Contact form submitted:', formData);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -132,6 +145,25 @@ const ContactForm = () => {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            id="date"
+            name="date"
+            label="Päivämäärä"
+            variant="outlined"
+            fullWidth
+            type="date"
+            value={formData.date}
+            onChange={handleInputChange}
+            required
+            error={!!errors.date}
+            helperText={errors.date}
+            autoComplete="off"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
             id="message"
             name="message"
             label="Viesti"
@@ -164,7 +196,7 @@ const ContactForm = () => {
         </Grid>
       </Grid>
     </form>
-  )
-}
+  );
+};
 
-export default ContactForm
+export default ContactForm;
