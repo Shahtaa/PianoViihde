@@ -17,7 +17,7 @@ const ContactForm = () => {
     phone: '',
     subject: '',
     message: '',
-    date: '', // Adding a date field
+    date: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -37,46 +37,84 @@ const ContactForm = () => {
   };
 
   const validateForm = () => {
-    let isValid = true;
     const newErrors = {};
 
-    if (!formData.name) {
+    if (!formData.name.trim()) {
       newErrors.name = 'Nimi on pakollinen';
-      isValid = false;
     }
-    if (!formData.email) {
+
+    if (!formData.email.trim()) {
       newErrors.email = 'Sähköposti on pakollinen';
-      isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Sähköpostin muoto ei ole oikea';
-      isValid = false;
     }
-    if (!formData.message) {
+
+    if (formData.phone && !/^\d{6,15}$/.test(formData.phone)) {
+      newErrors.phone = 'Puhelin tulee sisältää vain numeroita (6–15 merkkiä)';
+    }
+
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Aihe on pakollinen';
+    }
+
+    if (!formData.message.trim()) {
       newErrors.message = 'Viesti on pakollinen';
-      isValid = false;
     }
-    if (!formData.date) {
+
+    if (!formData.date.trim()) {
       newErrors.date = 'Päivämäärä on pakollinen';
-      isValid = false;
     } else {
       const selectedDate = new Date(formData.date);
       const today = new Date();
-      if (selectedDate < today) {
+      if (selectedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
         newErrors.date = 'Valitse päivämäärä, joka on tänään tai tulevaisuudessa';
-        isValid = false;
       }
     }
 
     setErrors(newErrors);
-    return isValid;
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  const API_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://your-production-domain.com/api/contact'
+    : 'http://localhost:3000/api/contact';
 
-    console.log('Contact form submitted:', formData);
-  };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (!validateForm()) return; // Проверяем валидацию
+    
+      try {
+        const response = await fetch(`${API_URL}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData), // Отправляем данные из формы
+        });
+    
+        if (!response.ok) {
+          throw new Error('Ошибка при отправке сообщения');
+        }
+    
+        const result = await response.json();
+        console.log('Результат от сервера:', result);
+    
+        alert('Сообщение успешно отправлено!');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          date: '',
+          message: '',
+        }); // Очищаем форму после успешной отправки
+      } catch (error) {
+        console.error('Ошибка при отправке сообщения:', error);
+        alert('Не удалось отправить сообщение. Попробуйте еще раз.');
+      }
+    };
+    
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -90,10 +128,8 @@ const ContactForm = () => {
             fullWidth
             value={formData.name}
             onChange={handleInputChange}
-            required
             error={!!errors.name}
             helperText={errors.name}
-            autoComplete="name"
           />
         </Grid>
         <Grid item xs={12}>
@@ -105,10 +141,8 @@ const ContactForm = () => {
             fullWidth
             value={formData.email}
             onChange={handleInputChange}
-            required
             error={!!errors.email}
             helperText={errors.email}
-            autoComplete="email"
           />
         </Grid>
         <Grid item xs={12}>
@@ -120,11 +154,12 @@ const ContactForm = () => {
             fullWidth
             value={formData.phone}
             onChange={handleInputChange}
-            autoComplete="tel"
+            error={!!errors.phone}
+            helperText={errors.phone}
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth>
+          <FormControl fullWidth error={!!errors.subject}>
             <InputLabel id="subject-label">Aihe</InputLabel>
             <Select
               labelId="subject-label"
@@ -132,8 +167,6 @@ const ContactForm = () => {
               name="subject"
               value={formData.subject}
               onChange={handleInputChange}
-              required
-              autoComplete="off"
             >
               {subjects.map((item, index) => (
                 <MenuItem key={index} value={item}>
@@ -141,6 +174,11 @@ const ContactForm = () => {
                 </MenuItem>
               ))}
             </Select>
+            {errors.subject && (
+              <Box sx={{ color: 'red', mt: 1, fontSize: '0.875rem' }}>
+                {errors.subject}
+              </Box>
+            )}
           </FormControl>
         </Grid>
         <Grid item xs={12}>
@@ -153,10 +191,8 @@ const ContactForm = () => {
             type="date"
             value={formData.date}
             onChange={handleInputChange}
-            required
             error={!!errors.date}
             helperText={errors.date}
-            autoComplete="off"
             InputLabelProps={{
               shrink: true,
             }}
@@ -173,10 +209,8 @@ const ContactForm = () => {
             rows={4}
             value={formData.message}
             onChange={handleInputChange}
-            required
             error={!!errors.message}
             helperText={errors.message}
-            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} sx={{ textAlign: 'center' }}>
