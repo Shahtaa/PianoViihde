@@ -6,12 +6,8 @@ import {
   CardContent,
   Typography,
   Box,
-  IconButton,
   Button,
 } from '@mui/material'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import YouTubeIcon from '@mui/icons-material/YouTube'
 
 const PianistCard = ({ pianist }) => {
   return (
@@ -46,40 +42,9 @@ const PianistCard = ({ pianist }) => {
         }}
       />
       <CardContent sx={{ flexGrow: 1 }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {pianist.name}
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <IconButton
-              color="primary"
-              onClick={() => (window.location.href = pianist.facebookUrl)}
-              sx={{ width: 30, height: 30 }}
-            >
-              <FacebookIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              onClick={() => (window.location.href = pianist.instagramUrl)}
-              sx={{ width: 30, height: 30 }}
-            >
-              <InstagramIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              onClick={() => (window.location.href = pianist.youtubeUrl)}
-              sx={{ width: 30, height: 30 }}
-            >
-              <YouTubeIcon />
-            </IconButton>
-          </Box>
-        </Box>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+          {pianist.name}
+        </Typography>
         <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
           {pianist.description}
         </Typography>
@@ -87,7 +52,6 @@ const PianistCard = ({ pianist }) => {
           variant="contained"
           color="primary"
           fullWidth
-          sx={{ mb: 2 }}
           component={Link}
           to={`/pianists/${pianist.id}`} // Используем ID из объекта
         >
