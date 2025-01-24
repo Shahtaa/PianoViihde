@@ -21,6 +21,7 @@ const Keikat = () => {
     const fetchGigs = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/gigs') // Adjust API endpoint as needed
+        console.log(response.data);
         setGigs(response.data) // Set the gigs data
       } catch (err) {
         setError('Failed to load gigs data')

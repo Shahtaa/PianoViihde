@@ -12,8 +12,6 @@ import {
   Button,
   CircularProgress,
 } from '@mui/material'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
@@ -27,14 +25,24 @@ function PianistPage() {
     axios
       .get(`http://localhost:3000/api/pianists/${id}`)
       .then((response) => {
-        setPianist(response.data)
-        setLoading(false)
+        console.log(response.data); // Логирование полученных данных
+        if (response.data.videos) {
+          // Проверяем, если videos — это строка, разделяем её на массив
+          if (typeof response.data.videos === 'string') {
+            response.data.videos = response.data.videos.split(',');
+          } else if (Array.isArray(response.data.videos)) {
+            // Если это массив, оставляем как есть
+            response.data.videos = response.data.videos.map(video => video.videoUrl || video);
+          }
+        }
+        setPianist(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching pianist:', error)
-        setLoading(false)
-      })
-  }, [id])
+        console.error('Error fetching pianist:', error);
+        setLoading(false);
+      });
+  }, [id]);
 
   if (loading) {
     return (
@@ -88,7 +96,7 @@ function PianistPage() {
           </Card>
         </Grid>
 
-        {/* Текст и ссылки */}
+        {/* Текст и кнопки */}
         <Grid item xs={12} md={6}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
             {pianist.name}
@@ -96,29 +104,6 @@ function PianistPage() {
           <Typography variant="body1" sx={{ mb: 3 }}>
             {pianist.description}
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-            <IconButton
-              color="primary"
-              href={pianist.facebookUrl}
-              target="_blank"
-            >
-              <FacebookIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              color="primary"
-              href={pianist.instagramUrl}
-              target="_blank"
-            >
-              <InstagramIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              color="primary"
-              href={pianist.youtubeUrl}
-              target="_blank"
-            >
-              <YouTubeIcon fontSize="large" />
-            </IconButton>
-          </Box>
 
           {/* Кнопка "Varaa esiintyjää" */}
           <Button
