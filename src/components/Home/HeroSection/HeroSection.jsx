@@ -1,15 +1,18 @@
-import React from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper'
-import { Box, Button, Typography, Container } from '@mui/material'
-import styles from './HeroSection.module.css'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
+import { Box, Button, Typography, Container } from '@mui/material';
+import styles from './HeroSection.module.css';
 
-SwiperCore.use([Autoplay, Navigation, Pagination])
+SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 function HeroSection() {
+  const navigate = useNavigate(); // Инициализация useNavigate
+
   return (
     <Box className={styles.heroContainer}>
       {/* Overlay для затемнения */}
@@ -21,8 +24,8 @@ function HeroSection() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 1)', // затемнение
-          zIndex: 1, // overlay будет над изображениями
+          backgroundColor: 'rgba(0, 0, 0, 1)',
+          zIndex: 1,
         }}
       />
 
@@ -37,7 +40,7 @@ function HeroSection() {
           textAlign: { xs: 'center', sm: 'center', md: 'left' },
           maxWidth: { xs: '80%', sm: '70%', md: 'auto' },
           padding: { xs: '0 1rem' },
-          zIndex: 2, // текст будет над overlay
+          zIndex: 2,
         }}
       >
         <Typography
@@ -81,17 +84,21 @@ function HeroSection() {
             alignItems: { xs: 'center', md: 'flex-start' },
           }}
         >
+          {/* Кнопка "Yhteystiedot" с переходом на /contact */}
           <Button
             variant="contained"
             color="primary"
             sx={{
               width: { xs: '50%', sm: '50%', md: 'auto' },
-              padding: { xs: '5px', lg: '10px' },
+              padding: { xs: '5px', lg: '15px' },
               fontSize: { xs: '1rem', lg: '1.5rem' },
             }}
+            onClick={() => navigate('/contact')} // Переход на страницу контактов
           >
-            Yhteystiedot
+            Ota yhteyttä
           </Button>
+
+          {/* Кнопка "Meistä" (О нас) */}
           <Button
             variant="outlined"
             color="primary"
@@ -100,6 +107,7 @@ function HeroSection() {
               padding: { xs: '5px', lg: '10px' },
               fontSize: { xs: '1rem', lg: '1.5rem' },
             }}
+            onClick={() => navigate('/about')} // Переход на страницу "О нас"
           >
             Meistä
           </Button>
@@ -130,15 +138,14 @@ function HeroSection() {
         </SwiperSlide>
         <SwiperSlide>
           <img
-            src={`${import.meta.env.VITE_PUBLIC_URL
-              }images/kansikuva_reverse.webp`}
+            src={`${import.meta.env.VITE_PUBLIC_URL}images/kansikuva_reverse.webp`}
             alt="Slide 2"
             className={styles.slideImage}
           />
         </SwiperSlide>
       </Swiper>
     </Box>
-  )
+  );
 }
 
-export default HeroSection
+export default HeroSection;

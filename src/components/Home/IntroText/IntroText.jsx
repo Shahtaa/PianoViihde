@@ -50,10 +50,6 @@ function IntroText() {
         tilaisuuteesi viihdyttämään.
       </Typography>
 
-      {/* Кнопка */}
-      <Button variant="contained" color="primary" size="medium">
-        Ota yhteyttä
-      </Button>
     </Box>
   )
 }
