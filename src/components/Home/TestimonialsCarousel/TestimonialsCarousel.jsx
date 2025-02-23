@@ -12,6 +12,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 const TestimonialsCarousel = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,7 @@ const TestimonialsCarousel = () => {
 
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/reviews');
+        const response = await fetch(`${API_BASE_URL}/api/reviews`);
         if (!response.ok) throw new Error('Virhe ladattaessa arvioita');
 
         const data = await response.json();

@@ -4,7 +4,8 @@ import { Box, Typography } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Используем API URL из .env
+// Определяем API URL: если переменная окружения есть, используем её, иначе - локальный сервер
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 function CounterSection() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
@@ -13,40 +14,35 @@ function CounterSection() {
   const [hasUpdated, setHasUpdated] = useState(false); // Флаг для проверки, был ли год уже увеличен
 
   useEffect(() => {
-    // Симулируем 1 января 2027 года
-    const today = new Date(); // Текущая дата
-
-    const currentYear = today.getFullYear(); // Текущий год
-    const startYear = 2007; // Год основания компании
-    let years = currentYear - startYear; // Разница между годами
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const startYear = 2007;
+    let years = currentYear - startYear;
     
-    // Если сегодня 1 января и год еще не обновлен
     if (today.getMonth() === 0 && today.getDate() === 1 && !hasUpdated) {
-      years += 1; // Увеличиваем на 1
-      setHasUpdated(true); // Устанавливаем флаг, что год был увеличен
+      years += 1;
+      setHasUpdated(true);
     }
 
-    // Сбрасываем флаг на false 2 января
     if (today.getMonth() === 0 && today.getDate() === 2) {
-      setHasUpdated(false); // Сбрасываем флаг для следующего года
+      setHasUpdated(false);
     }
 
-    setYearCount(years); // Устанавливаем количество лет
+    setYearCount(years);
   }, [hasUpdated]);
 
   useEffect(() => {
-    // Запрос на получение количества концертов
     const fetchConcertCount = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/gigs/concert-count`); // Используем API URL из .env
-        setConcertsCount(1257 + response.data.count); // Прибавляем количество концертов из базы данных
+        const response = await axios.get(`${API_BASE_URL}/api/gigs/concert-count`);
+        setConcertsCount(1257 + response.data.count);
       } catch (err) {
         console.error('Error fetching concert count:', err);
       }
     };
 
     fetchConcertCount();
-  }, []); // Запрос выполняется только при монтировании компонента
+  }, []);
 
   return (
     <Box
