@@ -5,7 +5,8 @@ import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 
 // Определяем API URL: если переменная окружения есть, используем её, иначе - локальный сервер
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 
 function CounterSection() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
@@ -30,6 +31,10 @@ function CounterSection() {
 
     setYearCount(years);
   }, [hasUpdated]);
+
+  console.log('API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+
+
 
   useEffect(() => {
     const fetchConcertCount = async () => {
