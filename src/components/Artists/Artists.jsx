@@ -3,6 +3,8 @@ import { Container, Typography, Grid, CircularProgress } from '@mui/material'
 import ArtistCard from './ArtistCard';  // Import ArtistCard component
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function Artists() {
     const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true) // New state for loading status
@@ -10,7 +12,7 @@ function Artists() {
     useEffect(() => {
       // Fetch artist data from the backend
       axios
-        .get('http://localhost:3000/api/artists')
+        .get(`${API_BASE_URL}/api/artists`)
         .then((response) => {
           setArtists(response.data)
           setLoading(false) // Set loading to false when data is fetched

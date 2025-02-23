@@ -13,6 +13,8 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function PianistPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ function PianistPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/pianists/${id}`)
+    axios.get(`${API_BASE_URL}/api/pianists/${id}`)
       .then((response) => {
         console.log('Pianist API Response:', response.data); // Логируем ответ API
 

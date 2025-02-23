@@ -14,6 +14,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function ArtistPage() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -22,7 +24,7 @@ function ArtistPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/artists/${id}`)
+      .get(`${API_BASE_URL}/api/artists/${id}`)
       .then((response) => {
         setArtist(response.data)
         setLoading(false)
