@@ -14,6 +14,8 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function ServicePage() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -22,7 +24,7 @@ function ServicePage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/services/${id}`)
+      .get(`${API_BASE_URL}/api/services/${id}`)
       .then((response) => {
         setService(response.data)
         setLoading(false)

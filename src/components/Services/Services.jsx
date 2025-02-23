@@ -9,13 +9,15 @@ import {
 } from '@mui/material' // Импорт CircularProgress
 import ServiceCard from './ServiceCard'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const Services = () => {
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true) // Добавляем состояние для загрузки
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/services') // URL вашего бэкенда
+      .get(`${API_BASE_URL}/api/services`) // URL вашего бэкенда
       .then((response) => {
         setServices(response.data)
       })
