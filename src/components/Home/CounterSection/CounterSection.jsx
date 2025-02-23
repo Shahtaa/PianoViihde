@@ -4,6 +4,8 @@ import { Box, Typography } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Используем API URL из .env
+
 function CounterSection() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
   const [yearCount, setYearCount] = useState(21); // Начальный год
@@ -36,7 +38,7 @@ function CounterSection() {
     // Запрос на получение количества концертов
     const fetchConcertCount = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/gigs/concert-count'); // Запрос на сервер
+        const response = await axios.get(`${API_BASE_URL}/api/gigs/concert-count`); // Используем API URL из .env
         setConcertsCount(1257 + response.data.count); // Прибавляем количество концертов из базы данных
       } catch (err) {
         console.error('Error fetching concert count:', err);
