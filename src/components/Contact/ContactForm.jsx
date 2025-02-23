@@ -10,6 +10,9 @@ import {
   InputLabel,
 } from '@mui/material';
 
+// Используем универсальную переменную окружения
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -21,6 +24,7 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false); // Для блокировки кнопки во время отправки
 
   const subjects = [
     'Livemusiikki ravintoloissa',
@@ -34,6 +38,11 @@ const ContactForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Для select (потому что в Select event.target это объект, а не input)
+  const handleSelectChange = (e) => {
+    setFormData((prevData) => ({ ...prevData, subject: e.target.value }));
   };
 
   const validateForm = () => {
@@ -75,46 +84,45 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://your-production-domain.com/api/contact'
-    : 'http://localhost:3000/api/contact';
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
+    setIsSubmitting(true);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      if (!validateForm()) return; // Проверяем валидацию
-    
-      try {
-        const response = await fetch(`${API_URL}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData), // Отправляем данные из формы
-        });
-    
-        if (!response.ok) {
-          throw new Error('Ошибка при отправке сообщения');
-        }
-    
-        const result = await response.json();
-        console.log('Результат от сервера:', result);
-    
-        alert('Сообщение успешно отправлено!');
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          date: '',
-          message: '',
-        }); // Очищаем форму после успешной отправки
-      } catch (error) {
-        console.error('Ошибка при отправке сообщения:', error);
-        alert('Не удалось отправить сообщение. Попробуйте еще раз.');
+    console.log('Отправка формы:', formData);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || 'Virhe viestin lähettämisessä');
       }
-    };
-    
-  
+
+      const result = await response.json();
+      console.log('Ответ сервера:', result);
+
+      alert('Viesti lähetettiin onnistuneesti!');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        date: '',
+        message: '',
+      }); 
+    } catch (error) {
+      console.error('Virhe lähettämisessä:', error);
+      alert(`Virhe: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -166,7 +174,7 @@ const ContactForm = () => {
               id="subject"
               name="subject"
               value={formData.subject}
-              onChange={handleInputChange}
+              onChange={handleSelectChange}
             >
               {subjects.map((item, index) => (
                 <MenuItem key={index} value={item}>
@@ -218,6 +226,7 @@ const ContactForm = () => {
             type="submit"
             variant="contained"
             color="primary"
+            disabled={isSubmitting}
             sx={{
               padding: '10px 20px',
               fontWeight: 'bold',
@@ -225,7 +234,7 @@ const ContactForm = () => {
               textTransform: 'none',
             }}
           >
-            Lähetä
+            {isSubmitting ? 'Lähetetään...' : 'Lähetä'}
           </Button>
         </Grid>
       </Grid>
