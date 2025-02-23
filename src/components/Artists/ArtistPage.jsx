@@ -5,16 +5,12 @@ import {
   Typography,
   Card,
   CardMedia,
-  CardContent,
   Container,
   CircularProgress,
   Button,
-  IconButton,
   Grid,
 } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import axios from 'axios'
 
@@ -71,7 +67,7 @@ function ArtistPage() {
         Takaisin
       </Button>
       <Grid container spacing={4}>
-        {/* Левый блок с изображением */}
+        {/* Left block with image */}
         <Grid item xs={12} md={5}>
           <Card
             sx={{
@@ -90,7 +86,7 @@ function ArtistPage() {
           </Card>
         </Grid>
 
-        {/* Правый блок с текстом и кнопками */}
+        {/* Right block with text and button */}
         <Grid item xs={12} md={7}>
           <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
             {artist.name}
@@ -102,46 +98,32 @@ function ArtistPage() {
           >
             {artist.description}
           </Typography>
-          {/* Ссылки на соцсети */}
-          <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-            {artist.facebookUrl && (
-              <IconButton
-                color="primary"
-                onClick={() => window.open(artist.facebookUrl, '_blank')}
-              >
-                <FacebookIcon />
-              </IconButton>
-            )}
-            {artist.instagramUrl && (
-              <IconButton
-                color="primary"
-                onClick={() => window.open(artist.instagramUrl, '_blank')}
-              >
-                <InstagramIcon />
-              </IconButton>
-            )}
-            {artist.youtubeUrl && (
-              <IconButton
-                color="primary"
-                onClick={() => window.open(artist.youtubeUrl, '_blank')}
-              >
-                <YouTubeIcon />
-              </IconButton>
-            )}
-          </Box>
-          {/* Кнопка "Varaa Esiintyjää" */}
+
+          {/* YouTube Link */}
+          {artist.youtubeUrl && (
+            <Button
+              color="primary"
+              onClick={() => window.open(artist.youtubeUrl, '_blank')}
+              startIcon={<YouTubeIcon />}
+            >
+              YouTube
+            </Button>
+          )}
+
+          {/* Booking Button */}
           <Button
             variant="contained"
             color="secondary"
             fullWidth
             onClick={() => navigate('/contact')}
+            sx={{ mt: 2 }}
           >
             Varaa esiintyjää
           </Button>
         </Grid>
       </Grid>
 
-      {/* Видео с YouTube */}
+      {/* YouTube Videos */}
       <Box sx={{ mt: 8 }}>
         <Typography variant="h4" sx={{ mb: 4 }}>
           Videoita YouTubesta
