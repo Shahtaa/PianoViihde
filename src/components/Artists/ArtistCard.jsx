@@ -41,17 +41,27 @@ const ArtistCard = ({ artist }) => {
           },
         }}
       />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-          {artist.name}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          {artist.description}
-        </Typography>
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+            {artist.name}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {artist.description}
+          </Typography>
+        </Box>
         <Button
           variant="contained"
           color="primary"
           fullWidth
+          sx={{ mt: 'auto' }} // Ensures button stays at the bottom
           onClick={() => navigate(`/artists/${artist.id}`)}
         >
           Lisätietoja
