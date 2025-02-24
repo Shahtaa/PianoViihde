@@ -97,20 +97,6 @@ function HeroSection() {
           >
             Ota yhteyttä
           </Button>
-
-          {/* Кнопка "Meistä" (О нас) */}
-          <Button
-            variant="outlined"
-            color="primary"
-            sx={{
-              width: { xs: '50%', sm: '50%', md: 'auto' },
-              padding: { xs: '5px', lg: '10px' },
-              fontSize: { xs: '1rem', lg: '1.5rem' },
-            }}
-            onClick={() => navigate('/about')} // Переход на страницу "О нас"
-          >
-            Meistä
-          </Button>
         </Box>
       </Container>
 
