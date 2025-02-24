@@ -1,13 +1,6 @@
-// src/components/PianistCard.jsx
 import React from 'react';
-import { Link } from 'react-router-dom'
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Button,
-} from '@mui/material'
+import { Link } from 'react-router-dom';
+import { Card, CardContent, Typography, Box, Button } from '@mui/material';
 
 const PianistCard = ({ pianist }) => {
   return (
@@ -41,25 +34,35 @@ const PianistCard = ({ pianist }) => {
           },
         }}
       />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-          {pianist.name}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          {pianist.description}
-        </Typography>
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+            {pianist.name}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {pianist.description}
+          </Typography>
+        </Box>
         <Button
           variant="contained"
           color="primary"
           fullWidth
           component={Link}
-          to={`/pianists/${pianist.id}`} // Используем ID из объекта
+          to={`/pianists/${pianist.id}`}
+          sx={{ mt: 'auto' }} // Ensures button stays at the bottom
         >
           Lisää tietoja
         </Button>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 export default PianistCard;

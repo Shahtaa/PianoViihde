@@ -35,17 +35,27 @@ function ServiceCard({ service }) {
           },
         }}
       />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-          {service.title}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          {service.description}
-        </Typography>
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+            {service.title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {service.description}
+          </Typography>
+        </Box>
         <Button
           variant="contained"
           color="primary"
           fullWidth
+          sx={{ mt: 'auto' }} // Ensures button stays at the bottom
           onClick={() => navigate(`/services/${service.id}`)}
         >
           Lisätietoja
