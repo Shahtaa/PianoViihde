@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 function Navbar() {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [activeButton, setActiveButton] = useState('/'); // Track active button
 
   // Toggle Drawer open/close
   const toggleDrawer = (open) => {
@@ -24,49 +25,91 @@ function Navbar() {
         color="inherit"
         component={Link}
         to="/"
-        onClick={() => setOpenDrawer(false)}
+        onClick={() => setActiveButton('/')} // Update active button on click
       >
-        ETUSIVU
+        <Typography
+          sx={{
+            borderBottom: activeButton === '/' ? '2px solid' : 'none',
+            paddingBottom: '4px', // Adjust the position of the line
+          }}
+        >
+          ETUSIVU
+        </Typography>
       </Button>
       <Button
         color="inherit"
         component={Link}
         to="/gigs"
-        onClick={() => setOpenDrawer(false)}
+        onClick={() => setActiveButton('/gigs')}
       >
-        KEIKAT
+        <Typography
+          sx={{
+            borderBottom: activeButton === '/gigs' ? '2px solid' : 'none',
+            paddingBottom: '4px',
+          }}
+        >
+          KEIKAT
+        </Typography>
       </Button>
       <Button
         color="inherit"
         component={Link}
         to="/services"
-        onClick={() => setOpenDrawer(false)}
+        onClick={() => setActiveButton('/services')}
       >
-        PALVELUT
+        <Typography
+          sx={{
+            borderBottom: activeButton === '/services' ? '2px solid' : 'none',
+            paddingBottom: '4px',
+          }}
+        >
+          PALVELUT
+        </Typography>
       </Button>
       <Button
         color="inherit"
         component={Link}
         to="/pianists"
-        onClick={() => setOpenDrawer(false)}
+        onClick={() => setActiveButton('/pianists')}
       >
-        PIANISTIT
+        <Typography
+          sx={{
+            borderBottom: activeButton === '/pianists' ? '2px solid' : 'none',
+            paddingBottom: '4px',
+          }}
+        >
+          PIANISTIT
+        </Typography>
       </Button>
       <Button
         color="inherit"
         component={Link}
         to="/artists"
-        onClick={() => setOpenDrawer(false)}
+        onClick={() => setActiveButton('/artists')}
       >
-        ARTISTIT
+        <Typography
+          sx={{
+            borderBottom: activeButton === '/artists' ? '2px solid' : 'none',
+            paddingBottom: '4px',
+          }}
+        >
+          ARTISTIT
+        </Typography>
       </Button>
       <Button
         color="inherit"
         component={Link}
         to="/contact"
-        onClick={() => setOpenDrawer(false)}
+        onClick={() => setActiveButton('/contact')}
       >
-        OTA YHTEYTTÄ
+        <Typography
+          sx={{
+            borderBottom: activeButton === '/contact' ? '2px solid' : 'none',
+            paddingBottom: '4px',
+          }}
+        >
+          OTA YHTEYTTÄ
+        </Typography>
       </Button>
     </Box>
   );
@@ -91,23 +134,95 @@ function Navbar() {
 
         {/* Desktop Menu (visible on medium and large screens) */}
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Button color="inherit" component={Link} to="/">
-            ETUSIVU
+          <Button
+            color="inherit"
+            component={Link}
+            to="/"
+            onClick={() => setActiveButton('/')}
+          >
+            <Typography
+              sx={{
+                borderBottom: activeButton === '/' ? '2px solid' : 'none',
+                paddingBottom: '4px',
+              }}
+            >
+              ETUSIVU
+            </Typography>
           </Button>
-          <Button color="inherit" component={Link} to="/gigs">
-            KEIKAT
+          <Button
+            color="inherit"
+            component={Link}
+            to="/gigs"
+            onClick={() => setActiveButton('/gigs')}
+          >
+            <Typography
+              sx={{
+                borderBottom: activeButton === '/gigs' ? '2px solid' : 'none',
+                paddingBottom: '4px',
+              }}
+            >
+              KEIKAT
+            </Typography>
           </Button>
-          <Button color="inherit" component={Link} to="/services">
-            PALVELUT
+          <Button
+            color="inherit"
+            component={Link}
+            to="/services"
+            onClick={() => setActiveButton('/services')}
+          >
+            <Typography
+              sx={{
+                borderBottom: activeButton === '/services' ? '2px solid' : 'none',
+                paddingBottom: '4px',
+              }}
+            >
+              PALVELUT
+            </Typography>
           </Button>
-          <Button color="inherit" component={Link} to="/pianists">
-            PIANISTIT
+          <Button
+            color="inherit"
+            component={Link}
+            to="/pianists"
+            onClick={() => setActiveButton('/pianists')}
+          >
+            <Typography
+              sx={{
+                borderBottom: activeButton === '/pianists' ? '2px solid' : 'none',
+                paddingBottom: '4px',
+              }}
+            >
+              PIANISTIT
+            </Typography>
           </Button>
-          <Button color="inherit" component={Link} to="/artists">
-            ARTISTIT
+          <Button
+            color="inherit"
+            component={Link}
+            to="/artists"
+            onClick={() => setActiveButton('/artists')}
+          >
+            <Typography
+              sx={{
+                borderBottom: activeButton === '/artists' ? '2px solid' : 'none',
+                paddingBottom: '4px',
+              }}
+            >
+              ARTISTIT
+            </Typography>
           </Button>
-          <Button color="inherit" component={Link} to="/contact">
-            OTA YHTEYTTÄ
+          <Button
+            color="inherit"
+            component={Link}
+            to="/contact"
+            onClick={() => setActiveButton('/contact')}
+          >
+            <Typography
+              sx={{
+                borderBottom: activeButton === '/contact' ? '2px solid' : 'none',
+                paddingBottom: '4px',
+              }}
+            >
+              OTA YHTEYTTÄ
+            </Typography>
           </Button>
         </Box>
       </Toolbar>
