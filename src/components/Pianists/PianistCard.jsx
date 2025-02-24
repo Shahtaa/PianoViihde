@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, Typography, Box, Button } from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image'; // Import the ImageIcon directly
 
 const PianistCard = ({ pianist }) => {
+  const handleImageError = (e) => {
+    e.target.onerror = null; // Prevents infinite loop if fallback fails
+    e.target.src = '/images/fallback.jpg'; // Fallback image
+  };
+
+  const imageUrl = pianist.imageUrl ? pianist.imageUrl : ''; // If imageUrl is missing, it'll be empty
+
   return (
     <Card
       sx={{
@@ -18,22 +26,39 @@ const PianistCard = ({ pianist }) => {
         },
       }}
     >
-      {/* Image */}
       <Box
-        component="img"
-        src={pianist.imageUrl}
-        alt={`Pianist ${pianist.name}`}
-        onError={(e) => (e.target.src = '/images/fallback.jpg')} // Fallback image if image fails
         sx={{
           width: '100%',
           height: '200px',
-          objectFit: 'cover',
-          transition: 'transform 0.3s ease',
-          '&:hover': {
-            transform: 'scale(1.1)', // Zoom effect on hover
-          },
+          backgroundColor: '#f0f0f0',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
+      >
+        {/* If there's no image, show the 'no image' icon */}
+        {imageUrl ? (
+          <Box
+            component="img"
+            src={imageUrl}
+            alt={`Pianist ${pianist.name}`}
+            onError={handleImageError}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'transform 0.3s ease',
+              '&:hover': {
+                transform: 'scale(1.1)', // Zoom effect on hover
+              },
+            }}
+          />
+        ) : (
+          // Show 'no image' icon when there's no image
+          <ImageIcon sx={{ fontSize: 100, color: 'grey.500' }} />
+        )}
+      </Box>
+
       <CardContent
         sx={{
           flexGrow: 1,

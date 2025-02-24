@@ -1,9 +1,17 @@
-import React from 'react'
-import { Card, CardContent, Typography, Box, Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Card, CardContent, Typography, Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import ImageIcon from '@mui/icons-material/Image'; // Import the ImageIcon directly
 
 function ServiceCard({ service }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const handleImageError = (e) => {
+    e.target.onerror = null; // Prevents infinite loop if fallback fails
+    e.target.src = '/images/fallback.jpg'; // Fallback image
+  };
+
+  const imageUrl = service.imageUrl ? service.imageUrl : ''; // If imageUrl is missing, it'll be empty
 
   return (
     <Card
@@ -21,20 +29,38 @@ function ServiceCard({ service }) {
       }}
     >
       <Box
-        component="img"
-        src={service.imageUrl}
-        alt={`Service ${service.title}`}
-        onError={(e) => (e.target.src = '/images/fallback.jpg')}
         sx={{
           width: '100%',
           height: '200px',
-          objectFit: 'cover',
-          transition: 'transform 0.3s ease',
-          '&:hover': {
-            transform: 'scale(1.1)',
-          },
+          backgroundColor: '#f0f0f0',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
+      >
+        {/* If there's no image, show the 'no image' icon */}
+        {imageUrl ? (
+          <Box
+            component="img"
+            src={imageUrl}
+            alt={`Service ${service.title}`}
+            onError={handleImageError}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'transform 0.3s ease',
+              '&:hover': {
+                transform: 'scale(1.1)', // Zoom effect on hover
+              },
+            }}
+          />
+        ) : (
+          // Show 'no image' icon when there's no image
+          <ImageIcon sx={{ fontSize: 100, color: 'grey.500' }} />
+        )}
+      </Box>
+
       <CardContent
         sx={{
           flexGrow: 1,
@@ -62,7 +88,7 @@ function ServiceCard({ service }) {
         </Button>
       </CardContent>
     </Card>
-  )
+  );
 }
 
-export default ServiceCard
+export default ServiceCard;
