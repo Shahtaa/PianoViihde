@@ -9,7 +9,6 @@ import {
 } from '@mui/material' // Импорт CircularProgress
 import ServiceCard from './ServiceCard'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const Services = () => {
   const [services, setServices] = useState([])
@@ -17,9 +16,10 @@ const Services = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/api/services`) // URL вашего бэкенда
+      .get(`/api/services`) // URL вашего бэкенда
       .then((response) => {
         setServices(response.data)
+
       })
       .catch((error) => {
         console.error('Error fetching services:', error)
@@ -28,6 +28,8 @@ const Services = () => {
         setLoading(false) // Завершаем загрузку
       })
   }, [])
+
+  console.log("services:", services)
 
   return (
     <Container sx={{ mt: 4 }}>

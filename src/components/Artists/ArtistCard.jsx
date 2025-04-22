@@ -11,13 +11,21 @@ import ImageIcon from '@mui/icons-material/Image'; // Import the ImageIcon direc
 
 const ArtistCard = ({ artist }) => {
   const navigate = useNavigate();
+  console.log("artist: ", artist)
 
   const handleImageError = (e) => {
     e.target.onerror = null; // Prevents infinite loop if fallback fails
-    e.target.src = '/images/fallback.jpg'; // Fallback image
+    e.target.src = '/images/fallback.webp'; // Fallback image
   };
 
-  const imageUrl = artist.imageUrl ? artist.imageUrl : ''; // If imageUrl is missing, it'll be empty
+  const imageUrl = artist.image
+    ? `/images/${artist.image}`
+    : '/placeholders/fallback.webp';
+
+  // Ограничиваем текст, показывая только первые 150 символов
+  const description = artist.description ? artist.description.slice(0, 150) + '...' : '';
+
+
 
   return (
     <Card
@@ -79,8 +87,8 @@ const ArtistCard = ({ artist }) => {
           <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
             {artist.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {artist.description}
+          <Typography variant="body2" color="textSecondary" sx={{ height: '60px', overflow: 'hidden' }}>
+            {description}
           </Typography>
         </Box>
         <Button

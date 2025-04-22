@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 function PianistPage() {
   const { id } = useParams();
@@ -22,7 +21,7 @@ function PianistPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/pianists/${id}`)
+    axios.get(`/api/pianists/${id}`)
       .then((response) => {
         console.log('Pianist API Response:', response.data); // Логируем ответ API
 
@@ -52,6 +51,20 @@ function PianistPage() {
     return <Typography variant="h5" sx={{ textAlign: 'center', mt: 4 }}>Pianisti ei löytynyt</Typography>;
   }
 
+
+  const imageUrl = pianist.image
+    ? `/images/${pianist.image}`
+    : '/placeholders/fallback.webp';
+
+
+  function normalizeYouTubeUrl(url) {
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url; // если уже embed или не распознано
+  }
+
   return (
     <Container sx={{ mt: 4 }}>
       {/* Кнопка "Назад" */}
@@ -65,8 +78,13 @@ function PianistPage() {
           <Card>
             <CardMedia
               component="img"
-              image={pianist.imageUrl || 'https://via.placeholder.com/400'}
+              src={imageUrl}
               alt={pianist.name}
+              onError={(e) => {
+                if (!e.target.src.includes('fallback.jpg')) {
+                  e.target.src = '/images/fallback.jpg';
+                }
+              }}
               sx={{ borderRadius: 2, maxHeight: '400px', objectFit: 'cover' }}
             />
           </Card>
@@ -97,9 +115,10 @@ function PianistPage() {
                   <Card>
                     <Box
                       component="iframe"
-                      src={videoUrl}
+                      src={normalizeYouTubeUrl(videoUrl)}
                       title={`Pianist Video ${index + 1}`}
-                      allow="fullscreen"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                       sx={{ width: '100%', height: '300px', border: 'none' }}
                     />
                   </Card>
@@ -109,9 +128,10 @@ function PianistPage() {
           </Grid>
         ) : (
           <Typography variant="h6" sx={{ textAlign: 'center', mt: 2, color: 'gray' }}>
-            🎵 Видео отсутствуют
+            🎵 Video puuttuu
           </Typography>
         )}
+
       </Grid>
     </Container>
   );

@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, Typography, Box, Button } from '@mui/material';
-import ImageIcon from '@mui/icons-material/Image'; // Import the ImageIcon directly
 
 const PianistCard = ({ pianist }) => {
   const handleImageError = (e) => {
-    e.target.onerror = null; // Prevents infinite loop if fallback fails
-    e.target.src = '/images/fallback.jpg'; // Fallback image
+    e.target.onerror = null; // предотвращает бесконечный вызов
+    e.target.src = '/placeholders/fallback.jpg'; // путь к запасному изображению
   };
 
-  const imageUrl = pianist.imageUrl ? pianist.imageUrl : ''; // If imageUrl is missing, it'll be empty
+  // Если у пианиста нет imageUrl, используем fallback.jpg
+  const imageUrl = pianist.image
+    ? `/images/${pianist.image}`
+    : '/placeholders/fallback.webp';
+
+  // Ограничиваем описание до 100 символов
+  const description = pianist.description ? pianist.description.slice(0, 150) + '...' : '';
 
   return (
     <Card
@@ -36,27 +41,21 @@ const PianistCard = ({ pianist }) => {
           alignItems: 'center',
         }}
       >
-        {/* If there's no image, show the 'no image' icon */}
-        {imageUrl ? (
-          <Box
-            component="img"
-            src={imageUrl}
-            alt={`Pianist ${pianist.name}`}
-            onError={handleImageError}
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transition: 'transform 0.3s ease',
-              '&:hover': {
-                transform: 'scale(1.1)', // Zoom effect on hover
-              },
-            }}
-          />
-        ) : (
-          // Show 'no image' icon when there's no image
-          <ImageIcon sx={{ fontSize: 100, color: 'grey.500' }} />
-        )}
+        <Box
+          component="img"
+          src={imageUrl}
+          alt={`Pianist ${pianist.name}`}
+          onError={handleImageError}
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'transform 0.3s ease',
+            '&:hover': {
+              transform: 'scale(1.1)',
+            },
+          }}
+        />
       </Box>
 
       <CardContent
@@ -71,8 +70,8 @@ const PianistCard = ({ pianist }) => {
           <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
             {pianist.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {pianist.description}
+          <Typography variant="body2" color="textSecondary" sx={{ height: '60px', overflow: 'hidden' }}>
+            {description}
           </Typography>
         </Box>
         <Button
@@ -81,7 +80,7 @@ const PianistCard = ({ pianist }) => {
           fullWidth
           component={Link}
           to={`/pianists/${pianist.id}`}
-          sx={{ mt: 'auto' }} // Ensures button stays at the bottom
+          sx={{ mt: 'auto' }}
         >
           Lisää tietoja
         </Button>

@@ -14,7 +14,6 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 function ServicePage() {
   const { id } = useParams()
@@ -24,16 +23,17 @@ function ServicePage() {
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/api/services/${id}`)
+      .get(`/api/services/${id}`)
       .then((response) => {
-        setService(response.data)
-        setLoading(false)
+        setService(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching service:', error)
-        setLoading(false)
-      })
-  }, [id])
+        console.error('Error fetching service:', error);
+        setLoading(false);
+      });
+  }, [id]);
+
 
   if (loading) {
     return (
@@ -58,6 +58,11 @@ function ServicePage() {
     )
   }
 
+  const imageUrl = service.image
+    ? `/images/${service.image}`
+    : '/placeholders/fallback.webp';
+
+  // console.log("service:", service)
   return (
     <Container sx={{ mt: 4 }}>
       <Button
@@ -76,11 +81,11 @@ function ServicePage() {
           borderRadius: 3,
         }}
       >
-        {service.imageUrl && (
+        {service.image && (
           <CardMedia
             component="img"
             height="400"
-            image={service.imageUrl}
+            src={imageUrl}
             alt={service.title || 'Service Image'}
             sx={{ objectFit: 'cover' }}
           />
@@ -92,7 +97,13 @@ function ServicePage() {
           >
             {service.title || 'No Title'}
           </Typography>
+
+          {/* Добавляем описание */}
+          <Typography variant="body1" sx={{ textAlign: 'center', mb: 3 }}>
+            {service.description || 'No description available.'}
+          </Typography>
         </CardContent>
+
       </Card>
 
       {Array.isArray(service.details) &&
@@ -110,7 +121,7 @@ function ServicePage() {
               alignItems: 'center',
             }}
           >
-            {detail.imageUrl && (
+            {detail.image && (
               <Box sx={{ flex: 1 }}>
                 <Card
                   sx={{
@@ -122,13 +133,14 @@ function ServicePage() {
                   <CardMedia
                     component="img"
                     height="300"
-                    image={detail.imageUrl}
+                    image={`/images/${detail.image}`}
                     alt={detail.heading || 'Detail Image'}
                     sx={{ objectFit: 'cover' }}
                   />
                 </Card>
               </Box>
             )}
+
             <Box sx={{ flex: 2 }}>
               <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
                 {detail.heading || 'No Heading'}
@@ -140,6 +152,7 @@ function ServicePage() {
             </Box>
           </Box>
         ))}
+
     </Container>
   )
 }

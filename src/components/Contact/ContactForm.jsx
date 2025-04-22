@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   Box,
   TextField,
@@ -10,8 +13,6 @@ import {
   InputLabel,
 } from '@mui/material';
 
-// Используем универсальную переменную окружения
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -93,7 +94,7 @@ const ContactForm = () => {
     console.log('Отправка формы:', formData);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+      const response = await fetch(`/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -107,7 +108,8 @@ const ContactForm = () => {
       const result = await response.json();
       console.log('Ответ сервера:', result);
 
-      alert('Viesti lähetettiin onnistuneesti!');
+      toast.success('Viesti lähetettiin onnistuneesti!');
+
       setFormData({
         name: '',
         email: '',
@@ -115,13 +117,14 @@ const ContactForm = () => {
         subject: '',
         date: '',
         message: '',
-      }); 
+      });
     } catch (error) {
       console.error('Virhe lähettämisessä:', error);
-      alert(`Virhe: ${error.message}`);
+      toast.error(`Virhe: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
+
   };
 
   return (
@@ -238,6 +241,7 @@ const ContactForm = () => {
           </Button>
         </Grid>
       </Grid>
+      <ToastContainer position="bottom-right" autoClose={5000} theme="light" />
     </form>
   );
 };

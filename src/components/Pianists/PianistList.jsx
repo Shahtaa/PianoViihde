@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // For fetching data from the backend
-import PianistGrid from './PianistGrid';  // Import PianistGrid to render the list
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+import axios from 'axios';  // Для запроса данных с бэкенда
+import PianistGrid from './PianistGrid';  // Для отображения всех пианистов
 
 function PianistList() {
-    const [pianists, setPianists] = useState([]);
+    const [pianists, setPianists] = useState([]);  // Состояние для хранения пианистов
+    const [loading, setLoading] = useState(true);  // Состояние загрузки
 
     useEffect(() => {
-        // Fetch pianist data from backend
-        axios.get(`${API_BASE_URL}/api/pianists`)  // Replace with the correct API endpoint if needed
+        axios.get(`/api/pianists`)  // Запрос на получение данных о пианистах
             .then(response => {
-                setPianists(response.data);  // Set the fetched data into state
+                setPianists(response.data);  // Обновляем состояние с полученными данными
+                setLoading(false);  // Останавливаем индикатор загрузки
             })
             .catch(error => {
-                console.error("There was an error fetching the pianists data:", error);
+                console.error("Ошибка при получении данных о пианистах:", error);
+                setLoading(false);
             });
-    }, []);
+    }, []);  // Запрос выполняется только один раз, при монтировании компонента
 
     return (
-        <PianistGrid pianists={pianists} />
+        <div>
+            {/* Показываем индикатор загрузки, если данные еще не загружены */}
+            {loading ? (
+                <div>Загрузка...</div>
+            ) : (
+                <PianistGrid pianists={pianists} />  // Передаем пианистов в компонент PianistGrid
+            )}
+        </div>
     );
 }
 

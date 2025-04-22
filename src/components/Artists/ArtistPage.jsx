@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -9,45 +9,36 @@ import {
   CircularProgress,
   Button,
   Grid,
-} from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import YouTubeIcon from '@mui/icons-material/YouTube'
-import axios from 'axios'
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import axios from 'axios';
 
 function ArtistPage() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [artist, setArtist] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [artist, setArtist] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/api/artists/${id}`)
+      .get(`/api/artists/${id}`)
       .then((response) => {
-        setArtist(response.data)
-        setLoading(false)
+        setArtist(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching artist:', error)
-        setLoading(false)
-      })
-  }, [id])
+        console.error('Error fetching artist:', error);
+        setLoading(false);
+      });
+  }, [id]);
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
       </Box>
-    )
+    );
   }
 
   if (!artist) {
@@ -55,64 +46,63 @@ function ArtistPage() {
       <Typography variant="h5" sx={{ textAlign: 'center', mt: 4 }}>
         Taiteilijaa ei löytynyt.
       </Typography>
-    )
+    );
+  }
+
+  const imageUrl = artist.image
+    ? `/images/${artist.image}`
+    : '/placeholders/fallback.webp'; // Заменяем на fallback, если фото нет
+
+  function normalizeYouTubeUrl(url) {
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url; // Если уже embed или не распознано
   }
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Button
-        onClick={() => navigate('/artists')}
-        variant="contained"
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 4 }}
-      >
+      <Button onClick={() => navigate('/artists')} variant="contained" startIcon={<ArrowBackIcon />} sx={{ mb: 4 }}>
         Takaisin
       </Button>
+
       <Grid container spacing={4}>
-        {/* Left block with image */}
+        {/* Левая часть с изображением */}
         <Grid item xs={12} md={5}>
-          <Card
-            sx={{
-              boxShadow: 3,
-              borderRadius: 3,
-              overflow: 'hidden',
-            }}
-          >
+          <Card sx={{ boxShadow: 3, borderRadius: 3, overflow: 'hidden' }}>
             <CardMedia
               component="img"
               height="400"
-              image={artist.imageUrl}
+              src={imageUrl}
               alt={artist.name || 'Artist Image'}
               sx={{ objectFit: 'cover' }}
+              onError={(e) => {
+                if (!e.target.src.includes('fallback.webp')) {
+                  e.target.src = '/images/fallback.webp';
+                }
+              }}
             />
           </Card>
         </Grid>
 
-        {/* Right block with text and button */}
+        {/* Правая часть с текстом и кнопкой */}
         <Grid item xs={12} md={7}>
           <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
             {artist.name}
           </Typography>
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            sx={{ mb: 4, lineHeight: 1.8 }}
-          >
+          <Typography variant="body1" color="textSecondary" sx={{ mb: 4, lineHeight: 1.8 }}>
             {artist.description}
           </Typography>
 
-          {/* YouTube Link */}
+          {/* Ссылка на YouTube, если имеется */}
           {artist.youtubeUrl && (
-            <Button
-              color="primary"
-              onClick={() => window.open(artist.youtubeUrl, '_blank')}
-              startIcon={<YouTubeIcon />}
-            >
+            <Button color="primary" onClick={() => window.open(artist.youtubeUrl, '_blank')} startIcon={<YouTubeIcon />}>
               YouTube
             </Button>
           )}
 
-          {/* Booking Button */}
+          {/* Кнопка бронирования */}
           <Button
             variant="contained"
             color="secondary"
@@ -125,7 +115,7 @@ function ArtistPage() {
         </Grid>
       </Grid>
 
-      {/* YouTube Videos */}
+      {/* Видео с YouTube */}
       <Box sx={{ mt: 8 }}>
         <Typography variant="h4" sx={{ mb: 4 }}>
           Videoita YouTubesta
@@ -137,7 +127,7 @@ function ArtistPage() {
                 <iframe
                   width="100%"
                   height="315"
-                  src={videoUrl}
+                  src={normalizeYouTubeUrl(videoUrl)}
                   title={`YouTube Video ${index + 1}`}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -148,7 +138,7 @@ function ArtistPage() {
         </Grid>
       </Box>
     </Container>
-  )
+  );
 }
 
-export default ArtistPage
+export default ArtistPage;

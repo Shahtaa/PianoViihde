@@ -1,23 +1,31 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import ImageIcon from '@mui/icons-material/Image'; // Import the ImageIcon directly
+import ImageIcon from '@mui/icons-material/Image'; // Icon for missing image
 
 function ServiceCard({ service }) {
   const navigate = useNavigate();
 
   const handleImageError = (e) => {
     e.target.onerror = null; // Prevents infinite loop if fallback fails
-    e.target.src = '/images/fallback.jpg'; // Fallback image
+    e.target.src = '/images/fallback.webp'; // Fallback image
   };
 
-  const imageUrl = service.imageUrl ? service.imageUrl : ''; // If imageUrl is missing, it'll be empty
+  // Если у сервиса нет imageUrl, используем пустую строку
+  const imageUrl = service.image
+    ? `/images/${service.image}`
+    : '/placeholders/fallback.webp';
+
+  // Ограничиваем описание до 150 символов
+  const description = service.description
+    ? service.description.slice(0, 150) + '...'
+    : '';
 
   return (
     <Card
       sx={{
         maxWidth: 345,
-        height: 450,
+        height: 'auto',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
@@ -26,6 +34,7 @@ function ServiceCard({ service }) {
           transform: 'scale(1.03)',
           boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
         },
+        marginBottom: '20px', // Отступы между карточками
       }}
     >
       <Box
@@ -38,7 +47,7 @@ function ServiceCard({ service }) {
           alignItems: 'center',
         }}
       >
-        {/* If there's no image, show the 'no image' icon */}
+        {/* Если у сервиса есть изображение, показываем его, иначе показываем иконку */}
         {imageUrl ? (
           <Box
             component="img"
@@ -51,12 +60,11 @@ function ServiceCard({ service }) {
               objectFit: 'cover',
               transition: 'transform 0.3s ease',
               '&:hover': {
-                transform: 'scale(1.1)', // Zoom effect on hover
+                transform: 'scale(1.1)', // Эффект увеличения при наведении
               },
             }}
           />
         ) : (
-          // Show 'no image' icon when there's no image
           <ImageIcon sx={{ fontSize: 100, color: 'grey.500' }} />
         )}
       </Box>
@@ -67,21 +75,23 @@ function ServiceCard({ service }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          padding: '16px', // Отступы внутри карточки
+          minHeight: '250px', // Устанавливаем минимальную высоту для карточек
         }}
       >
-        <Box>
+        <Box sx={{ marginBottom: '16px' }}> {/* Добавляем отступ между заголовком и текстом */}
           <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
             {service.title}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {service.description}
+            {description}
           </Typography>
         </Box>
         <Button
           variant="contained"
           color="primary"
           fullWidth
-          sx={{ mt: 'auto' }} // Ensures button stays at the bottom
+          sx={{ mt: 'auto' }} // Обеспечиваем, чтобы кнопка была внизу
           onClick={() => navigate(`/services/${service.id}`)}
         >
           Lisätietoja
