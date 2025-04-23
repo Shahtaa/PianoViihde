@@ -35,9 +35,23 @@ h6 {
 
 /* Main content area */
 main {
-  flex-grow: 1; /* Ensures the content takes available space */
-  padding-bottom: 80px; /* Prevents footer overlap */
+  flex-grow: 1;
+  /* Ensures the content takes available space */
+  padding-bottom: 80px;
+  /* Prevents footer overlap */
 }
+
+/* Обертка react-tel-input */
+/* Контейнер с флагом */
+.react-tel-input .country-list {
+  z-index: 9999 !important;
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100% !important;
+  min-width: 280px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Footer */
 footer {
