@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import {
   Box,
   TextField,
@@ -12,7 +13,9 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { fi } from 'date-fns/locale';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -21,11 +24,12 @@ const ContactForm = () => {
     phone: '',
     subject: '',
     message: '',
-    date: '',
+    date: null, // date как объект Date
   });
 
+  const [phone, setPhone] = useState('358');
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false); // Для блокировки кнопки во время отправки
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const subjects = [
     'Livemusiikki ravintoloissa',
@@ -41,7 +45,6 @@ const ContactForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Для select (потому что в Select event.target это объект, а не input)
   const handleSelectChange = (e) => {
     setFormData((prevData) => ({ ...prevData, subject: e.target.value }));
   };
@@ -49,10 +52,7 @@ const ContactForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Nimi on pakollinen';
-    }
-
+    if (!formData.name.trim()) newErrors.name = 'Nimi on pakollinen';
     if (!formData.email.trim()) {
       newErrors.email = 'Sähköposti on pakollinen';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -63,20 +63,15 @@ const ContactForm = () => {
       newErrors.phone = 'Puhelin tulee sisältää vain numeroita (6–15 merkkiä)';
     }
 
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Aihe on pakollinen';
-    }
+    if (!formData.subject.trim()) newErrors.subject = 'Aihe on pakollinen';
+    if (!formData.message.trim()) newErrors.message = 'Viesti on pakollinen';
 
-    if (!formData.message.trim()) {
-      newErrors.message = 'Viesti on pakollinen';
-    }
-
-    if (!formData.date.trim()) {
+    if (!formData.date) {
       newErrors.date = 'Päivämäärä on pakollinen';
     } else {
-      const selectedDate = new Date(formData.date);
+      const selected = new Date(formData.date);
       const today = new Date();
-      if (selectedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+      if (selected.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
         newErrors.date = 'Valitse päivämäärä, joka on tänään tai tulevaisuudessa';
       }
     }
@@ -91,13 +86,16 @@ const ContactForm = () => {
 
     setIsSubmitting(true);
 
-    console.log('Отправка формы:', formData);
+    const payload = {
+      ...formData,
+      date: formData.date?.toISOString().split('T')[0],
+    };
 
     try {
       const response = await fetch(`/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -105,26 +103,21 @@ const ContactForm = () => {
         throw new Error(errorResponse.message || 'Virhe viestin lähettämisessä');
       }
 
-      const result = await response.json();
-      console.log('Ответ сервера:', result);
-
       toast.success('Viesti lähetettiin onnistuneesti!');
-
       setFormData({
         name: '',
         email: '',
         phone: '',
         subject: '',
-        date: '',
         message: '',
+        date: null,
       });
+      setPhone('358');
     } catch (error) {
-      console.error('Virhe lähettämisessä:', error);
       toast.error(`Virhe: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
-
   };
 
   return (
@@ -132,9 +125,8 @@ const ContactForm = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
-            id="name"
-            name="name"
             label="Nimi"
+            name="name"
             variant="outlined"
             fullWidth
             value={formData.name}
@@ -143,11 +135,11 @@ const ContactForm = () => {
             helperText={errors.name}
           />
         </Grid>
+
         <Grid item xs={12}>
           <TextField
-            id="email"
-            name="email"
             label="Sähköposti"
+            name="email"
             variant="outlined"
             fullWidth
             value={formData.email}
@@ -156,64 +148,91 @@ const ContactForm = () => {
             helperText={errors.email}
           />
         </Grid>
+
         <Grid item xs={12}>
-          <TextField
-            id="phone"
-            name="phone"
-            label="Puhelin"
-            variant="outlined"
-            fullWidth
-            value={formData.phone}
-            onChange={handleInputChange}
-            error={!!errors.phone}
-            helperText={errors.phone}
-          />
+          <Box
+            sx={{
+              '& .form-control': {
+                width: '100%',
+                height: '56px',
+                fontSize: '16px',
+                border: '1px solid rgba(0, 0, 0, 0.23)',
+                borderRadius: '4px',
+                paddingLeft: '48px',
+                backgroundColor: '#f5f5f5',
+              },
+              '& .flag-dropdown': {
+                borderRight: '1px solid rgba(0, 0, 0, 0.23)',
+                borderTopLeftRadius: '4px',
+                borderBottomLeftRadius: '4px',
+              },
+              '& .form-control:focus': {
+                borderColor: '#1976d2',
+                boxShadow: '0 0 0 2px rgba(25, 118, 210, 0.2)',
+              },
+            }}
+          >
+            <PhoneInput
+              country={'fi'}
+              value={phone}
+              onChange={(value) => {
+                setPhone(value);
+                setFormData((prev) => ({ ...prev, phone: value }));
+              }}
+              enableSearch
+              placeholder="Lisää puhelinnumero"
+              specialLabel=""
+              preferredCountries={['fi']}
+              autoFormat
+            />
+          </Box>
+          {errors.phone && (
+            <Box sx={{ color: 'red', mt: 1, fontSize: '0.875rem' }}>{errors.phone}</Box>
+          )}
         </Grid>
+
         <Grid item xs={12}>
           <FormControl fullWidth error={!!errors.subject}>
             <InputLabel id="subject-label">Aihe</InputLabel>
             <Select
               labelId="subject-label"
-              id="subject"
               name="subject"
               value={formData.subject}
               onChange={handleSelectChange}
             >
               {subjects.map((item, index) => (
-                <MenuItem key={index} value={item}>
-                  {item}
-                </MenuItem>
+                <MenuItem key={index} value={item}>{item}</MenuItem>
               ))}
             </Select>
             {errors.subject && (
-              <Box sx={{ color: 'red', mt: 1, fontSize: '0.875rem' }}>
-                {errors.subject}
-              </Box>
+              <Box sx={{ color: 'red', mt: 1, fontSize: '0.875rem' }}>{errors.subject}</Box>
             )}
           </FormControl>
         </Grid>
+
         <Grid item xs={12}>
-          <TextField
-            id="date"
-            name="date"
-            label="Päivämäärä"
-            variant="outlined"
-            fullWidth
-            type="date"
-            value={formData.date}
-            onChange={handleInputChange}
-            error={!!errors.date}
-            helperText={errors.date}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fi}>
+            <DatePicker
+              value={formData.date}
+              onChange={(newValue) => setFormData((prev) => ({ ...prev, date: newValue }))}
+              minDate={new Date()}
+              slotProps={{
+                textField: {
+                  variant: 'outlined',
+                  placeholder: 'Päivämäärä',
+                  fullWidth: true,
+                  error: !!errors.date,
+                  helperText: errors.date,
+                },
+              }}
+            />
+          </LocalizationProvider>
         </Grid>
+
         <Grid item xs={12}>
           <TextField
-            id="message"
-            name="message"
             label="Viesti"
+            name="message"
             variant="outlined"
             fullWidth
             multiline
@@ -224,18 +243,14 @@ const ContactForm = () => {
             helperText={errors.message}
           />
         </Grid>
+
         <Grid item xs={12} sx={{ textAlign: 'center' }}>
           <Button
             type="submit"
             variant="contained"
             color="primary"
             disabled={isSubmitting}
-            sx={{
-              padding: '10px 20px',
-              fontWeight: 'bold',
-              borderRadius: '25px',
-              textTransform: 'none',
-            }}
+            sx={{ padding: '10px 20px', fontWeight: 'bold', borderRadius: '25px', textTransform: 'none' }}
           >
             {isSubmitting ? 'Lähetetään...' : 'Lähetä'}
           </Button>
