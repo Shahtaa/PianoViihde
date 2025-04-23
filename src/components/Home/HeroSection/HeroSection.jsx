@@ -116,29 +116,13 @@ function HeroSection() {
       >
         {/* Слайды с изображениями */}
         <SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="/images/kansikuva.webp"
-              alt="Slide 1"
-              className={styles.slideImage}
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="/images/kansikuva_reverse.webp"
-              alt="Slide 2"
-              className={styles.slideImage}
-            />
-          </SwiperSlide>
-
+          <img src="/static-images/kansikuva.webp" alt="Slide 1" className={styles.slideImage} />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src="/images/kansikuva_reverse.webp"
-            alt="Slide 2"
-            className={styles.slideImage}
-          />
+          <img src="/static-images/kansikuva_reverse.webp" alt="Slide 2" className={styles.slideImage} />
+
         </SwiperSlide>
+
       </Swiper>
     </Box>
   );
