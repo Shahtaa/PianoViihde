@@ -1,99 +1,119 @@
 /* HeroSection.module.css */
 .heroContainer {
-   position: relative;
-   overflow: hidden;
-   height: calc(100vh - 60px - 40px);
- }
- 
- .slideContainer {
-   position: relative;
- }
- 
- .slideImage {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-   opacity: .4;
-   z-index: -1; /* Размещаем изображение на заднем плане */
- }
- 
- .overlay {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.7);
- }
- 
- .content {
-   position: absolute;
-   top: 30%;
-   left: 40%;
-   transform: translate(-50%);
-   color: #fff;
-   text-align: left;
- }
- 
- .title {
-   font-weight: bold;
-   font-size: 3rem; /* Размер для больших экранов */
- }
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 60px - 40px);
+}
 
- 
- 
- .buttonContainer {
-   margin-top: 1rem;
-   display: flex;
-   gap: 16px;
- }
- 
- /* Адаптивные стили для экрана шириной до 1024px */
- @media (max-width: 1024px) {
-   .content {
-     top: 25%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     text-align: center;
-   }
-   .title {
-     font-size: 2.5rem; /* Уменьшаем размер шрифта */
-   }
- }
- 
- /* Адаптивные стили для экрана шириной до 768px */
- @media (max-width: 768px) {
-   .content {
-     top: 20%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     text-align: center;
-   }
-   .title {
-     font-size: 2rem; /* Ещё уменьшаем размер шрифта */
-   }
- }
- 
- /* Адаптивные стили для экрана шириной до 480px */
- @media (max-width: 480px) {
-   .content {
-     top: 15%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     text-align: center;
-   }
-   .title {
-     font-size: 1.5rem; /* Ещё меньше размер для маленьких экранов */
-   }
-   .buttonContainer {
-     flex-direction: column; /* Ставим кнопки вертикально */
-     gap: 8px;
-   }
-   .button {
-     width: 100%; /* Кнопки занимают всю ширину на маленьких экранах */
-   }
- }
- 
+.slideContainer {
+  position: relative;
+}
+
+.slideImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .4;
+  z-index: -1;
+  /* Размещаем изображение на заднем плане */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.content {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  transform: translate(-50%);
+  color: #fff;
+  text-align: left;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 3rem;
+  /* Размер для больших экранов */
+}
+
+
+
+.buttonContainer {
+  margin-top: 1rem;
+  display: flex;
+  gap: 16px;
+}
+
+/* Адаптивные стили для экрана шириной до 1024px */
+@media (max-width: 1024px) {
+  .content {
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    /* Уменьшаем размер шрифта */
+  }
+}
+
+/* Адаптивные стили для экрана шириной до 768px */
+@media (max-width: 768px) {
+  .content {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2rem;
+    /* Ещё уменьшаем размер шрифта */
+  }
+}
+
+/* Адаптивные стили для экрана шириной до 480px */
+@media (max-width: 480px) {
+  .content {
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    /* Ещё меньше размер для маленьких экранов */
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    /* Ставим кнопки вертикально */
+    gap: 8px;
+  }
+
+  .button {
+    width: 100%;
+    /* Кнопки занимают всю ширину на маленьких экранах */
+  }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .slideImage {
+    object-position: center top;
+  }
+}

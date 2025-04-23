@@ -11,17 +11,17 @@ import { Link } from 'react-router-dom';
 
 
 function Home() {
-    return (
-      <>
-        <HeroSection />
-        <IntroText />
-        <CounterSection />
-        <PartnerLogos />
-        <TestimonialsCarousel />
-        <InstagramFeed />
-        <ContactSection />
-      </>
-    )
+  return (
+    <>
+      <HeroSection />
+      <IntroText />
+      <CounterSection />
+      {/* <PartnerLogos /> */}
+      <TestimonialsCarousel />
+      <InstagramFeed />
+      <ContactSection />
+    </>
+  )
 }
 
 export default Home;

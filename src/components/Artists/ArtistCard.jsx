@@ -11,7 +11,6 @@ import ImageIcon from '@mui/icons-material/Image'; // Import the ImageIcon direc
 
 const ArtistCard = ({ artist }) => {
   const navigate = useNavigate();
-  console.log("artist: ", artist)
 
   const handleImageError = (e) => {
     e.target.onerror = null; // Prevents infinite loop if fallback fails
@@ -62,7 +61,10 @@ const ArtistCard = ({ artist }) => {
             sx={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: {
+                xs: 'contain',
+                sm: 'cover',
+              },
               transition: 'transform 0.3s ease',
               '&:hover': {
                 transform: 'scale(1.1)', // Zoom effect on hover

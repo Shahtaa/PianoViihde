@@ -79,14 +79,27 @@ function PianistPage() {
             <CardMedia
               component="img"
               src={imageUrl}
-              alt={pianist.name}
+              alt={pianist.name || 'Pianist Image'}
               onError={(e) => {
                 if (!e.target.src.includes('fallback.jpg')) {
                   e.target.src = '/images/fallback.jpg';
                 }
               }}
-              sx={{ borderRadius: 2, maxHeight: '400px', objectFit: 'cover' }}
+              sx={{
+                objectFit: {
+                  xs: 'contain', // На мобилке показываем всё изображение
+                  md: 'cover',   // На десктопе — обрезаем для эффекта фона
+                },
+                width: '100%',
+                height: {
+                  xs: 'auto',    // Высота по содержимому на мобилке
+                  md: 500,       // Фиксированная высота на десктопе
+                },
+                backgroundColor: '#000', // Черный фон для "рамки" вокруг вертикальных фото
+                borderRadius: 2,
+              }}
             />
+
           </Card>
         </Grid>
 
@@ -95,7 +108,12 @@ function PianistPage() {
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
             {pianist.name}
           </Typography>
-          <Typography variant="body1" sx={{ mb: 3 }}>{pianist.description}</Typography>
+          <Typography
+            variant="body1"
+            sx={{ mb: 3, whiteSpace: 'pre-line', lineHeight: 1.8 }}
+          >
+            {pianist.description}
+          </Typography>
 
           {/* Кнопка бронирования */}
           <Button variant="contained" color="secondary" fullWidth onClick={() => navigate('/contact')}>
@@ -103,27 +121,30 @@ function PianistPage() {
           </Button>
         </Grid>
 
-        {/* Видео */}
+        {/* Video */}
         {pianist.videos.length > 0 ? (
           <Grid item xs={12}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
-              Видео с YouTube
+            <Typography variant="h4" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+              Videot
             </Typography>
             <Grid container spacing={2}>
-              {pianist.videos.map((videoUrl, index) => (
-                <Grid item xs={12} md={6} key={index}>
-                  <Card>
-                    <Box
-                      component="iframe"
-                      src={normalizeYouTubeUrl(videoUrl)}
-                      title={`Pianist Video ${index + 1}`}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      sx={{ width: '100%', height: '300px', border: 'none' }}
-                    />
-                  </Card>
-                </Grid>
-              ))}
+              {pianist.videos
+                .filter((videoUrl) => !!videoUrl)
+                .map((videoUrl, index) => (
+                  <Grid item xs={12} md={6} key={index}>
+                    <Card>
+                      <Box
+                        component="iframe"
+                        src={normalizeYouTubeUrl(videoUrl)}
+                        title={`Pianist Video ${index + 1}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        sx={{ width: '100%', height: '300px', border: 'none' }}
+                      />
+                    </Card>
+                  </Grid>
+                ))}
+
             </Grid>
           </Grid>
         ) : (

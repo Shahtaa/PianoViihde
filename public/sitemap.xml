@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://piano.symfosium.fi/</loc>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://piano.symfosium.fi/gigs</loc>
+  </url>
+  <url>
+    <loc>https://piano.symfosium.fi/services</loc>
+  </url>
+  <url>
+    <loc>https://piano.symfosium.fi/pianists</loc>
+  </url>
+  <url>
+    <loc>https://piano.symfosium.fi/artists</loc>
+  </url>
+  <url>
+    <loc>https://piano.symfosium.fi/contact</loc>
+  </url>
+</urlset>

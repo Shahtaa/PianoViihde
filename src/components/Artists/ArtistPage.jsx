@@ -68,30 +68,43 @@ function ArtistPage() {
       </Button>
 
       <Grid container spacing={4}>
-        {/* Левая часть с изображением */}
         <Grid item xs={12} md={5}>
-          <Card sx={{ boxShadow: 3, borderRadius: 3, overflow: 'hidden' }}>
-            <CardMedia
-              component="img"
-              height="400"
-              src={imageUrl}
-              alt={artist.name || 'Artist Image'}
-              sx={{ objectFit: 'cover' }}
-              onError={(e) => {
-                if (!e.target.src.includes('fallback.webp')) {
-                  e.target.src = '/images/fallback.webp';
-                }
-              }}
-            />
-          </Card>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Card sx={{ maxWidth: 400, width: '100%', boxShadow: 3, borderRadius: 3, overflow: 'hidden' }}>
+              <CardMedia
+                component="img"
+                src={imageUrl}
+                alt={artist.name || 'Artist Image'}
+                onError={(e) => {
+                  if (!e.target.src.includes('fallback.webp')) {
+                    e.target.src = '/images/fallback.webp';
+                  }
+                }}
+                sx={{
+                  objectFit: {
+                    xs: 'contain', // Показываем всю картинку на телефоне, без обрезки
+                    md: 'cover',   // Обрезаем для эффекта фона на десктопе
+                  },
+                  width: '100%',
+                  height: {
+                    xs: 'auto',    // Адаптивная высота на мобилке
+                    md: 500,       // Фиксированная высота на десктопе
+                  },
+                  backgroundColor: '#000', // Заполняем черным фон за пределами картинки
+                }}
+              />
+
+            </Card>
+          </Box>
         </Grid>
+
 
         {/* Правая часть с текстом и кнопкой */}
         <Grid item xs={12} md={7}>
           <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
             {artist.name}
           </Typography>
-          <Typography variant="body1" color="textSecondary" sx={{ mb: 4, lineHeight: 1.8 }}>
+          <Typography variant="body1" color="textSecondary" sx={{ mb: 4, whiteSpace: 'pre-line', lineHeight: 1.8 }}>
             {artist.description}
           </Typography>
 
@@ -117,8 +130,8 @@ function ArtistPage() {
 
       {/* Видео с YouTube */}
       <Box sx={{ mt: 8 }}>
-        <Typography variant="h4" sx={{ mb: 4 }}>
-          Videoita YouTubesta
+        <Typography variant="h4" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+          Videot
         </Typography>
         <Grid container spacing={4}>
           {artist.videos &&

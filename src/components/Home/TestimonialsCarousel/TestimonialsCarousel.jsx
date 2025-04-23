@@ -44,6 +44,10 @@ const styles = {
   },
   cardContent: {
     flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    minHeight: '160px', // или больше, в зависимости от ожидаемой длины текста
   },
   avatar: {
     bgcolor: '#1976d2',
@@ -59,7 +63,13 @@ const styles = {
     fontStyle: 'italic',
     lineHeight: '1.6',
     textAlign: 'center',
+    display: '-webkit-box',
+    WebkitLineClamp: 5,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
+
   date: {
     color: 'text.secondary',
   },
@@ -79,6 +89,7 @@ const TestimonialsCarousel = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     let isMounted = true;
@@ -192,12 +203,21 @@ const TestimonialsCarousel = () => {
                   </Stack>
                 </CardContent>
                 <Box sx={{ marginTop: 'auto' }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ justifyContent: 'center' }}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent="center"
+                    sx={{ flexWrap: 'wrap', textAlign: 'center' }}
+                  >
                     <Avatar alt={review.reviewer_name} sx={styles.avatar}>
                       {review.reviewer_name[0]}
                     </Avatar>
-                    <Box>
-                      <Typography variant="subtitle1" sx={styles.reviewerName}>
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ ...styles.reviewerName, wordBreak: 'break-word' }}
+                      >
                         {review.reviewer_name}
                       </Typography>
                       <Typography variant="caption" sx={styles.date}>
@@ -205,6 +225,7 @@ const TestimonialsCarousel = () => {
                       </Typography>
                     </Box>
                   </Stack>
+
                 </Box>
               </Card>
             </Box>

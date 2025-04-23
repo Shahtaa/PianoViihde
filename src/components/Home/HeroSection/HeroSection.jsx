@@ -12,6 +12,9 @@ SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 function HeroSection() {
   const navigate = useNavigate(); // Инициализация useNavigate
+  const isMobile = window.innerWidth <= 768;
+  const image1 = isMobile ? '/static-images/piia2.webp' : '/static-images/kansikuva.webp';
+  const image2 = isMobile ? '/static-images/piia3.webp' : '/static-images/kansikuva1.webp';
 
   return (
     <Box className={styles.heroContainer}>
@@ -116,12 +119,12 @@ function HeroSection() {
       >
         {/* Слайды с изображениями */}
         <SwiperSlide>
-          <img src="/static-images/kansikuva.webp" alt="Slide 1" className={styles.slideImage} />
+          <img src={image1} alt="Slide 1" className={styles.slideImage} />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="/static-images/kansikuva_reverse.webp" alt="Slide 2" className={styles.slideImage} />
-
+          <img src={image2} alt="Slide 2" className={styles.slideImage} />
         </SwiperSlide>
+
 
       </Swiper>
     </Box>
